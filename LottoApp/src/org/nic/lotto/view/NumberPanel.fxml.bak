@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="600.0" styleClass="background" xmlns:fx="http://javafx.com/fxml" fx:controller="org.nic.lotto.view.controller.NumberPanelController">
+  <!-- TODO Add Nodes -->
+  <children>
+    <GridPane fx:id="gridPane" alignment="CENTER" gridLinesVisible="false" prefHeight="350.0" prefWidth="350.0" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="125.0">
+      <columnConstraints>
+        <ColumnConstraints hgrow="NEVER" minWidth="50.0" prefWidth="50.0" />
+        <ColumnConstraints hgrow="NEVER" minWidth="50.0" prefWidth="50.0" />
+        <ColumnConstraints hgrow="NEVER" minWidth="50.0" prefWidth="50.0" />
+        <ColumnConstraints hgrow="NEVER" minWidth="50.0" prefWidth="50.0" />
+        <ColumnConstraints hgrow="NEVER" minWidth="50.0" prefWidth="50.0" />
+        <ColumnConstraints hgrow="NEVER" minWidth="50.0" prefWidth="50.0" />
+        <ColumnConstraints hgrow="NEVER" minWidth="50.0" prefWidth="50.0" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+        <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+        <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+        <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+        <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+        <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+        <RowConstraints fillHeight="true" minHeight="10.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
+      </rowConstraints>
+      <stylesheets>
+        <URL value="@Theme.css" />
+      </stylesheets>
+    </GridPane>
+  </children>
+  <stylesheets>
+    <URL value="@Theme.css" />
+  </stylesheets>
+</AnchorPane>
