@@ -7,12 +7,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Camera;
 import javafx.scene.Node;
-import javafx.scene.ParallelCamera;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -24,31 +21,31 @@ public class LottoApp extends Application
 	private static final String NUMBER_PANEL_ID = "numberPanel";
 	private static final String NUMBER_PANEL_PATH = "view/NumberPanel.fxml";
 	
+	@SuppressWarnings("unused")
 	private NumberPanelController numberPanelController;
 	
-	private ObservableMap<Parent,IController> parentControllerMap = FXCollections.observableMap(new HashMap<Parent,IController>());
+	private ObservableMap<Parent,IController> parentControllerMap = 
+			FXCollections.observableMap(new HashMap<Parent,IController>());
 	private ObservableMap<String,Parent> screens = 
-			FXCollections.observableMap(new HashMap<String, Parent>());
+			FXCollections.observableMap(new HashMap<String,Parent>());
 	
 	
 	@Override
-	public void start(Stage stage) throws Exception {
+	public void start(Stage stage)  
+	{
 		try {			
 			loadPanel(NUMBER_PANEL_ID, NUMBER_PANEL_PATH);
 			
 			Scene scene = new Scene(screens.get(NUMBER_PANEL_ID));
 			
-			Camera camera = new ParallelCamera();
-			
-			scene.cameraProperty().set(camera);
 			screens.get(NUMBER_PANEL_ID).relocate(0, 0);		
 
 			stage.setScene(scene);
 		
-			stage.centerOnScreen();
 			stage.maxHeightProperty().set(600);
 			stage.maxWidthProperty().set(600);
-			stage.setResizable(false);
+			stage.centerOnScreen();
+			stage.setResizable(true);
 			stage.show();
 			
 			stage.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, new EventHandler<WindowEvent>() {
@@ -59,9 +56,6 @@ public class LottoApp extends Application
 				}
 				
 			});
-			
-			
-			
 			
 		} catch (Exception e) {
 			// TODO: handle exception

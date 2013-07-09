@@ -9,9 +9,10 @@ import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 
 import org.nic.lotto.LottoApp;
 import org.nic.lotto.util.IController;
@@ -24,6 +25,12 @@ public class NumberPanelController implements Initializable, IController
 	@FXML
 	private GridPane gridPane;
 	
+	@FXML
+	private AnchorPane anchorPane;
+	
+	@FXML
+	private ScrollPane scrollPane;
+	
 	private ObservableMap<String,ToggleButton> gridButtons = FXCollections.observableMap(new HashMap<String,ToggleButton>());
 
 	@Override
@@ -31,9 +38,10 @@ public class NumberPanelController implements Initializable, IController
 	{
 		gridPane.getStyleClass().add("grid-pane");	
 		initGrid();
-		
-		Text txt = new Text("Number");
-		
+		System.out.println(scrollPane.getContent());
+		scrollPane.setContent(null);
+		scrollPane.setContent(anchorPane);
+		gotoPanel();
 	}
 	
 	private void initGrid()
@@ -55,5 +63,13 @@ public class NumberPanelController implements Initializable, IController
 
 	public void setMainApp(LottoApp lottoApp) {
 		this.lottoApp = lottoApp;
+	}
+	
+	public void gotoPanel()
+	{
+//		scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+		scrollPane.hvalueProperty().set(scrollPane.getHmax());
+		scrollPane.vvalueProperty().set(scrollPane.getVmax());
+		System.out.println(scrollPane.getHvalue());
 	}
 }
