@@ -11,12 +11,16 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 
 import org.nic.lotto.LottoApp;
+import org.nic.lotto.util.IController;
 
-public class NumberPanelController implements Initializable
+public class NumberPanelController implements Initializable, IController
 {
+	@SuppressWarnings("unused")
 	private LottoApp lottoApp;
+	
 	@FXML
 	private GridPane gridPane;
 	
@@ -27,6 +31,9 @@ public class NumberPanelController implements Initializable
 	{
 		gridPane.getStyleClass().add("grid-pane");	
 		initGrid();
+		
+		Text txt = new Text("Number");
+		
 	}
 	
 	private void initGrid()

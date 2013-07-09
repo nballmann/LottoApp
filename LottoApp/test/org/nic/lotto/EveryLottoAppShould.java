@@ -6,11 +6,9 @@ import static org.junit.Assert.assertTrue;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 
-import javafx.application.Application;
-import javafx.stage.Stage;
-
 import org.junit.Before;
 import org.junit.Test;
+import org.nic.lotto.util.ConnectionHelper;
 
 public class EveryLottoAppShould
 {
@@ -26,7 +24,7 @@ public class EveryLottoAppShould
 	@Test
 	public void BeAbleToConnectToLottoZahlenPhp() throws Exception
 	{
-		HttpURLConnection httpConnection = lottoApp.connectTo(LottoApp.LOTTOZAHLEN_URL);
+		HttpURLConnection httpConnection = ConnectionHelper.connectTo(ConnectionHelper.LOTTOZAHLEN_URL);
 		
 		assertEquals(200, httpConnection.getResponseCode());		
 	}
@@ -34,8 +32,8 @@ public class EveryLottoAppShould
 	@Test
 	public void ReturnAnInputStreamFromURLConnection()
 	{
-		InputStream in = lottoApp.getLottoInputStream(lottoApp.connectTo(LottoApp.LOTTOZAHLEN_URL));
-		lottoApp.getLottoNumbersFromInputStream(in);
+		InputStream in = ConnectionHelper.getLottoInputStream(ConnectionHelper.connectTo(ConnectionHelper.LOTTOZAHLEN_URL));
+		ConnectionHelper.getLottoNumbersFromInputStream(in);
 		assertTrue(in!=null);
 	}
 

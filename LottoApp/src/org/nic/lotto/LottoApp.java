@@ -1,47 +1,87 @@
 package org.nic.lotto;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.regex.MatchResult;
-import java.util.regex.Pattern;
+import java.util.HashMap;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Camera;
+import javafx.scene.Node;
+import javafx.scene.ParallelCamera;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
+import org.nic.lotto.util.IController;
 import org.nic.lotto.view.controller.NumberPanelController;
 
 public class LottoApp extends Application
 {
-
+	private static final String NUMBER_PANEL_ID = "numberPanel";
+	private static final String NUMBER_PANEL_PATH = "view/NumberPanel.fxml";
 	
-	public static final String LOTTOZAHLEN_URL = "http://www.lottozahlenonline.de/data_extern/lottozahlen.php";
-	private static final String REGEX_IMG = "alt=\"([^\"]+)\"";
+	private NumberPanelController numberPanelController;
+	
+	private ObservableMap<Parent,IController> parentControllerMap = FXCollections.observableMap(new HashMap<Parent,IController>());
+	private ObservableMap<String,Parent> screens = 
+			FXCollections.observableMap(new HashMap<String, Parent>());
+	
 	
 	@Override
 	public void start(Stage stage) throws Exception {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("view/NumberPanel.fxml"));
-			AnchorPane pane = (AnchorPane) loader.load();
-			NumberPanelController controller = loader.getController();
-			controller.setMainApp(this);
+		try {			
+			loadPanel(NUMBER_PANEL_ID, NUMBER_PANEL_PATH);
 			
-			Scene scene = new Scene(pane);
+			Scene scene = new Scene(screens.get(NUMBER_PANEL_ID));
 			
+			Camera camera = new ParallelCamera();
+			
+			scene.cameraProperty().set(camera);
+			screens.get(NUMBER_PANEL_ID).relocate(0, 0);		
+
 			stage.setScene(scene);
+		
+			stage.centerOnScreen();
+			stage.maxHeightProperty().set(600);
+			stage.maxWidthProperty().set(600);
+			stage.setResizable(false);
 			stage.show();
+			
+			stage.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, new EventHandler<WindowEvent>() {
+
+				@Override
+				public void handle(WindowEvent arg0) {
+					System.exit(0);
+				}
+				
+			});
+			
+			
+			
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		
-		
+	}
+	
+	private <T extends Node> void loadPanel(String id, String resource)
+	{
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(resource));
+			Parent parent = (Parent) loader.load(); 
+			IController controller = loader.getController();
+			controller.setMainApp(this);
+			parentControllerMap.put(parent, controller);
+			screens.put(id, parent);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		
 	}
 
@@ -49,54 +89,7 @@ public class LottoApp extends Application
 		launch(args);
 	}
 
-	public HttpURLConnection connectTo(String lottozahlenUrl) {
-		try {
-			URL url = new URL(lottozahlenUrl);
-			URLConnection con = url.openConnection();
-			HttpURLConnection httpCon = (HttpURLConnection) con;
-			
-			return httpCon;
-		} catch (IOException e) { }
-			
-		return null;
-	}
-
-	public InputStream getLottoInputStream(HttpURLConnection httpConnection) {
-		try {
-			final int responceCode = httpConnection.getResponseCode();
-			if(responceCode == HttpURLConnection.HTTP_OK)
-			{
-				return httpConnection.getInputStream();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
-	public int[] getLottoNumbersFromInputStream(InputStream in)
-	{
-		ArrayList<String> strNumberList = new ArrayList<>();
-		int[] lottoNumbers = new int[7];
-		
-		Scanner sc = new Scanner(in);
-		Pattern p = Pattern.compile(REGEX_IMG);
-		
-		while(sc.findWithinHorizon(p, 0) != null)
-		{
-			MatchResult m = sc.match();
-			String[] splittedResult = m.group(1).split(" ");
-			strNumberList.add(splittedResult[1]);
-		}
-		
-		for(int i=0;i<7;i++)
-		{
-			lottoNumbers[i] = Integer.parseInt(strNumberList.get(i));
-			System.out.println(lottoNumbers[i]);
-		}
-		
-		return lottoNumbers;
-	}
 
 	
 
