@@ -21,7 +21,6 @@ public class LottoApp extends Application
 	private static final String NUMBER_PANEL_ID = "numberPanel";
 	private static final String NUMBER_PANEL_PATH = "view/NumberPanel.fxml";
 	
-	@SuppressWarnings("unused")
 	private NumberPanelController numberPanelController;
 	
 	private ObservableMap<Parent,IController> parentControllerMap = 
@@ -42,10 +41,11 @@ public class LottoApp extends Application
 
 			stage.setScene(scene);
 		
-			stage.maxHeightProperty().set(600);
-			stage.maxWidthProperty().set(600);
+			stage.maxHeightProperty().set(650);
+			stage.maxWidthProperty().set(650);
 			stage.centerOnScreen();
-			stage.setResizable(true);
+			stage.setResizable(false);
+			stage.setTitle("App für Lottosüchtige Ver. 1.1B");
 			stage.show();
 			
 			stage.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, new EventHandler<WindowEvent>() {
@@ -61,6 +61,9 @@ public class LottoApp extends Application
 			// TODO: handle exception
 		}
 		
+		numberPanelController = (NumberPanelController) parentControllerMap.get(screens.get(NUMBER_PANEL_ID));
+		numberPanelController.gotoPanel(900,900);
+
 	}
 	
 	private <T extends Node> void loadPanel(String id, String resource)

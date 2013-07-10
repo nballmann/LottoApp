@@ -2,46 +2,270 @@
 
 <?import java.lang.*?>
 <?import java.net.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?scenebuilder-background-color 0xffffff00?>
 
-<AnchorPane layoutX="600.0" layoutY="600.0" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml" fx:controller="org.nic.lotto.view.controller.NumberPanelController">
+<AnchorPane maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml" fx:controller="org.nic.lotto.view.controller.NumberPanelController">
   <!-- TODO Add Nodes -->
   <children>
-    <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hmax="1800.0" hvalue="0.0" layoutX="0.0" layoutY="0.0" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" pannable="true" pickOnBounds="false" prefHeight="600.0" prefViewportHeight="600.0" prefViewportWidth="600.0" prefWidth="600.0" styleClass="background" vbarPolicy="NEVER" vmax="1800.0" vvalue="0.0">
+    <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" hmax="1800.0" hvalue="900.0" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefViewportHeight="600.0" prefViewportWidth="600.0" prefWidth="600.0" vbarPolicy="NEVER" vmax="1800.0" vvalue="900.0">
       <content>
-        <AnchorPane fx:id="anchorPane" maxHeight="1800.0" maxWidth="1800.0" minHeight="1800.0" minWidth="1800.0" prefHeight="1800.0" prefWidth="1800.0">
+        <AnchorPane fx:id="anchorPane" maxHeight="1800.0" maxWidth="1800.0" minHeight="1800.0" minWidth="1800.0" prefHeight="1800.0" prefWidth="1800.0" snapToPixel="false">
           <children>
-            <ImageView fitHeight="600.0" fitWidth="600.0" layoutX="0.0" layoutY="0.0" pickOnBounds="true" preserveRatio="true" x="0.0" y="0.0">
-              <image>
-                <Image url="@../../../../../res/bg_header_content~1.png" />
-              </image>
-            </ImageView>
-            <GridPane fx:id="gridPane" alignment="CENTER" layoutX="113.0" layoutY="113.0" maxHeight="374.0" maxWidth="374.0" minHeight="374.0" minWidth="374.0" prefHeight="374.0" prefWidth="374.0" styleClass="grid-pane">
-              <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
-                <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
-                <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
-                <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
-                <RowConstraints fillHeight="false" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
-                <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
-                <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
-                <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
-                <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
-                <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
-              </rowConstraints>
+            <AnchorPane fx:id="anchorPane_right" layoutX="1200.0" layoutY="600.0" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="background">
+              <children>
+                <ImageView fitHeight="600.0" fitWidth="600.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@../../../../../res/bg_header_content~1.png" preserveRatio="false" smooth="false" />
+                  </image>
+                </ImageView>
+                <Group id="Group" fx:id="rightToCenter" layoutY="248.0" onMouseClicked="#handleToCenter">
+                  <children>
+                    <Line endX="50.0" layoutX="2.0" layoutY="102.0" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.5">
+                      <stroke>
+                        <Color blue="0.000" green="0.480" red="1.000" fx:id="x1" />
+                      </stroke>
+                    </Line>
+                    <Line endX="100.0" endY="100.0" layoutX="-45.0" layoutY="2.0" startX="100.0" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="2.5">
+                      <stroke>
+                        <Color blue="0.000" green="0.478" red="1.000" fx:id="x4" />
+                      </stroke>
+                    </Line>
+                    <Text fill="$x1" layoutX="21.0" layoutY="51.0" rotate="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Left">
+                      <font>
+                        <Font name="Calibri Bold" size="28.0" fx:id="x2" />
+                      </font>
+                    </Text>
+                  </children>
+                </Group>
+                <GridPane id="gridPane" alignment="CENTER" layoutX="113.0" layoutY="113.0" maxHeight="374.0" maxWidth="374.0" minHeight="374.0" minWidth="374.0" prefHeight="374.0" prefWidth="374.0" styleClass="grid-pane">
+                  <columnConstraints>
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                  </columnConstraints>
+                  <rowConstraints>
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints fillHeight="false" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
+                  </rowConstraints>
+                  <stylesheets>
+                    <URL value="@Theme.css" />
+                  </stylesheets>
+                </GridPane>
+              </children>
               <stylesheets>
                 <URL value="@Theme.css" />
               </stylesheets>
-            </GridPane>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorPane_center" layoutX="600.0" layoutY="600.0" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="background">
+              <children>
+                <ImageView fitHeight="600.0" fitWidth="600.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@../../../../../res/bg_header_content~1.png" preserveRatio="false" smooth="false" />
+                  </image>
+                </ImageView>
+                <Group id="Group" fx:id="centerToRight" layoutX="550.0" layoutY="248.0" onMouseClicked="#handleCenterToRight">
+                  <children>
+                    <Line endX="50.0" layoutX="5.0" layoutY="102.0" stroke="$x1" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+                    <Line endX="100.0" endY="100.0" layoutX="-97.0" layoutY="2.0" startX="100.0" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="2.5">
+                      <stroke>
+                        <Color blue="0.000" green="0.478" red="1.000" fx:id="x3" />
+                      </stroke>
+                    </Line>
+                    <Text fill="$x1" font="$x2" layoutX="-12.0" layoutY="55.0" rotate="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Right" />
+                  </children>
+                </Group>
+                <Group id="Group" fx:id="centerToTop" layoutX="247.0" onMouseClicked="#handleCenterToTop">
+                  <children>
+                    <Line endX="100.0" layoutX="2.0" layoutY="52.0" stroke="$x1" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+                    <Line endX="100.0" endY="50.0" layoutX="4.0" layoutY="2.0" startX="100.0" stroke="$x3" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+                    <Text fill="$x1" font="$x2" layoutX="35.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Up" />
+                  </children>
+                </Group>
+                <Group id="Group" fx:id="centerToBottom" layoutX="248.0" layoutY="550.0" onMouseClicked="#handleCenterToBottom">
+                  <children>
+                    <Line endX="100.0" layoutX="2.0" layoutY="2.0" stroke="$x1" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+                    <Line endX="100.0" endY="50.0" layoutX="2.0" layoutY="2.0" startX="100.0" stroke="$x3" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+                    <Text fill="$x1" font="$x2" layoutX="13.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Down" />
+                  </children>
+                </Group>
+                <Group id="Group" fx:id="centerToLeft" layoutY="248.0" onMouseClicked="#handleCenterToLeft">
+                  <children>
+                    <Line endX="50.0" layoutX="2.0" layoutY="102.0" stroke="$x1" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+                    <Line endX="100.0" endY="100.0" layoutX="-45.0" layoutY="2.0" startX="100.0" stroke="$x4" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+                    <Text fill="$x1" font="$x2" layoutX="21.0" layoutY="51.0" rotate="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Left" />
+                  </children>
+                </Group>
+                <GridPane id="gridPane" alignment="CENTER" layoutX="113.0" layoutY="113.0" maxHeight="374.0" maxWidth="374.0" minHeight="374.0" minWidth="374.0" prefHeight="374.0" prefWidth="374.0" styleClass="grid-pane">
+                  <columnConstraints>
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                  </columnConstraints>
+                  <rowConstraints>
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints fillHeight="false" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
+                  </rowConstraints>
+                  <stylesheets>
+                    <URL value="@Theme.css" />
+                  </stylesheets>
+                </GridPane>
+              </children>
+              <stylesheets>
+                <URL value="@Theme.css" />
+              </stylesheets>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorPane_top" layoutX="600.0" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="background">
+              <children>
+                <ImageView fitHeight="600.0" fitWidth="600.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@../../../../../res/bg_header_content~1.png" preserveRatio="false" smooth="false" />
+                  </image>
+                </ImageView>
+                <Group id="Group" fx:id="topToCenter" layoutX="248.0" layoutY="550.0" onMouseClicked="#handleToCenter">
+                  <children>
+                    <Line endX="100.0" layoutX="2.0" layoutY="2.0" stroke="$x1" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+                    <Line endX="100.0" endY="50.0" layoutX="2.0" layoutY="2.0" startX="100.0" stroke="$x4" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+                    <Text fill="$x1" font="$x2" layoutX="13.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Down" />
+                  </children>
+                </Group>
+                <GridPane id="gridPane" alignment="CENTER" layoutX="113.0" layoutY="113.0" maxHeight="374.0" maxWidth="374.0" minHeight="374.0" minWidth="374.0" prefHeight="374.0" prefWidth="374.0" styleClass="grid-pane">
+                  <columnConstraints>
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                  </columnConstraints>
+                  <rowConstraints>
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints fillHeight="false" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
+                  </rowConstraints>
+                  <stylesheets>
+                    <URL value="@Theme.css" />
+                  </stylesheets>
+                </GridPane>
+              </children>
+              <stylesheets>
+                <URL value="@Theme.css" />
+              </stylesheets>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorPane_left" layoutY="600.0" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="background">
+              <children>
+                <ImageView fitHeight="600.0" fitWidth="600.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@../../../../../res/bg_header_content~1.png" preserveRatio="false" smooth="false" />
+                  </image>
+                </ImageView>
+                <Group id="Group" fx:id="leftToCenter" layoutX="550.0" layoutY="248.0" onMouseClicked="#handleToCenter">
+                  <children>
+                    <Line endX="50.0" layoutX="5.0" layoutY="102.0" stroke="$x1" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+                    <Line endX="100.0" endY="100.0" layoutX="-97.0" layoutY="2.0" startX="100.0" stroke="$x4" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+                    <Text fill="$x1" font="$x2" layoutX="-12.0" layoutY="55.0" rotate="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Right" />
+                  </children>
+                </Group>
+                <GridPane fx:id="gridPane" alignment="CENTER" layoutX="113.0" layoutY="113.0" maxHeight="374.0" maxWidth="374.0" minHeight="374.0" minWidth="374.0" prefHeight="374.0" prefWidth="374.0" styleClass="grid-pane">
+                  <columnConstraints>
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                  </columnConstraints>
+                  <rowConstraints>
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints fillHeight="false" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
+                  </rowConstraints>
+                  <stylesheets>
+                    <URL value="@Theme.css" />
+                  </stylesheets>
+                </GridPane>
+              </children>
+              <stylesheets>
+                <URL value="@Theme.css" />
+              </stylesheets>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorPane_bottom" layoutX="600.0" layoutY="1200.0" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="background">
+              <children>
+                <ImageView fitHeight="600.0" fitWidth="600.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@../../../../../res/bg_header_content~1.png" preserveRatio="false" smooth="false" />
+                  </image>
+                </ImageView>
+                <Group id="Group" fx:id="bottomToCenter" layoutX="247.0" onMouseClicked="#handleToCenter">
+                  <children>
+                    <Line endX="100.0" layoutX="2.0" layoutY="52.0" stroke="$x1" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+                    <Line endX="100.0" endY="50.0" layoutX="4.0" layoutY="2.0" startX="100.0" stroke="$x4" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+                    <Text fill="$x1" font="$x2" layoutX="35.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Up" />
+                  </children>
+                </Group>
+                <GridPane id="gridPane" alignment="CENTER" layoutX="113.0" layoutY="113.0" maxHeight="374.0" maxWidth="374.0" minHeight="374.0" minWidth="374.0" prefHeight="374.0" prefWidth="374.0" styleClass="grid-pane">
+                  <columnConstraints>
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                  </columnConstraints>
+                  <rowConstraints>
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints fillHeight="false" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
+                  </rowConstraints>
+                  <stylesheets>
+                    <URL value="@Theme.css" />
+                  </stylesheets>
+                </GridPane>
+              </children>
+              <stylesheets>
+                <URL value="@Theme.css" />
+              </stylesheets>
+            </AnchorPane>
           </children>
         </AnchorPane>
       </content>
@@ -50,7 +274,4 @@
       </stylesheets>
     </ScrollPane>
   </children>
-  <stylesheets>
-    <URL value="@Theme.css" />
-  </stylesheets>
 </AnchorPane>

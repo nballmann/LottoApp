@@ -74,4 +74,9 @@ public final class ConnectionHelper
 		
 		return lottoNumbers;
 	}
+	
+	public static int[] getActualLottoNumbers()
+	{
+		return getLottoNumbersFromInputStream(getLottoInputStream(connectTo(LOTTOZAHLEN_URL)));		
+	}
 }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="600.0" styleClass="background" xmlns:fx="http://javafx.com/fxml">
+  <!-- TODO Add Nodes -->
+  <children>
+    <Group id="Group" fx:id="centerToBottom" layoutX="248.0" layoutY="548.0">
+      <children>
+        <Line endX="100.0" layoutX="2.0" layoutY="2.0" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.5">
+          <stroke>
+            <Color blue="0.000" green="0.480" red="1.000" fx:id="x1" />
+          </stroke>
+        </Line>
+        <Line endX="100.0" endY="50.0" layoutX="2.0" layoutY="2.0" startX="100.0" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="2.5">
+          <stroke>
+            <Color blue="0.000" green="0.478" red="1.000" fx:id="x2" />
+          </stroke>
+        </Line>
+        <Text fill="$x1" layoutX="13.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Down">
+          <font>
+            <Font name="Calibri Bold" size="28.0" fx:id="x3" />
+          </font>
+        </Text>
+      </children>
+    </Group>
+    <Group id="Group" fx:id="centerToTop" layoutX="248.0" layoutY="1.0">
+      <children>
+        <Line endX="100.0" layoutX="2.0" layoutY="52.0" stroke="$x1" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+        <Line endX="100.0" endY="50.0" layoutX="4.0" layoutY="2.0" startX="100.0" stroke="$x2" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+        <Text fill="$x1" font="$x3" layoutX="35.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Up" />
+      </children>
+    </Group>
+    <Group id="Group" fx:id="centerToLeft" layoutX="1.0" layoutY="249.0">
+      <children>
+        <Line endX="50.0" layoutX="2.0" layoutY="102.0" stroke="$x1" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+        <Line endX="100.0" endY="100.0" layoutX="-45.0" layoutY="2.0" startX="100.0" stroke="$x2" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+        <Text fill="$x1" font="$x3" layoutX="21.0" layoutY="51.0" rotate="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Left" />
+      </children>
+    </Group>
+    <Group id="Group" fx:id="centerToRight" layoutX="543.0" layoutY="249.0">
+      <children>
+        <Line endX="50.0" layoutX="5.0" layoutY="102.0" stroke="$x1" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+        <Line endX="100.0" endY="100.0" layoutX="-97.0" layoutY="2.0" startX="100.0" stroke="$x2" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
+        <Text fill="$x1" font="$x3" layoutX="-12.0" layoutY="55.0" rotate="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Right" />
+      </children>
+    </Group>
+    <Group id="Group" layoutX="200.0" layoutY="201.0">
+      <children>
+        <Circle fill="WHITE" layoutX="100.0" layoutY="100.0" radius="50.0" stroke="BLACK" strokeType="INSIDE">
+          <effect>
+            <InnerShadow choke="0.2380952380952381" height="128.0" radius="63.5" width="128.0" />
+          </effect>
+        </Circle>
+        <Text layoutX="70.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="49" textOrigin="CENTER">
+          <font>
+            <Font name="Calibri Bold" size="60.0" />
+          </font>
+        </Text>
+      </children>
+    </Group>
+  </children>
+  <stylesheets>
+    <URL value="@Theme.css" />
+  </stylesheets>
+</AnchorPane>
