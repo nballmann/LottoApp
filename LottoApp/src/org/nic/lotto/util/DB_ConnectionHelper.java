@@ -2,10 +2,14 @@ package org.nic.lotto.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import org.nic.lotto.model.LottoNumberSet;
 
 
 public class DB_ConnectionHelper {
@@ -25,9 +29,9 @@ public class DB_ConnectionHelper {
 	  private static String dbUser = "root";
 	 
 	  // Datenbankpasswort
-	  private static String dbPassword = "";
+	  private static String dbPassword = ""; 
 	  
-	  private static Object[][] lottoTable; 
+//	  private static Object[][] lottoTable; 
 	  
 	 
 	  private DB_ConnectionHelper() {
@@ -92,10 +96,12 @@ public class DB_ConnectionHelper {
 //	  }
 //	  
 //	  
-	  public static Object[][] getLottoZiehungen()
+	  public static ObservableList<LottoNumberSet> getLottoZiehungen()
 	  {
 	    conn = getInstance();
 	 
+	    ObservableList<LottoNumberSet> lottoResultList = FXCollections.observableArrayList();
+	    
 	    if(conn != null)
 	    {
 	      // Anfrage-Statement erzeugen.
@@ -104,42 +110,42 @@ public class DB_ConnectionHelper {
 	      try {
 	        query = conn.createStatement();
 	        
-	        int rowCount;
+//	        int rowCount;
 	 
 	        // Ergebnistabelle erzeugen und abholen.
 	        String sql = "SELECT date, zahl_1, zahl_2, zahl_3, zahl_4, zahl_5, zahl_6, szahl FROM ziehungen "
-	            + "ORDER BY date DESC";
+	            + "ORDER BY ID ";
 	        ResultSet result = query.executeQuery(sql);
 	        
 	        // Anzahl der Zeilen aus dem ResultSet auslesen
-	        result.last();
-	        rowCount = result.getRow();
-	        result.beforeFirst();
+//	        result.last();
+//	        rowCount = result.getRow();
+//	        result.beforeFirst();
 	        
-	        lottoTable = new Object[rowCount][8]; // Object-Container für die Datensätze der score_db
-
+//	        lottoTable = new Object[rowCount][8]; // Object-Container für die Datensätze der score_db
+	        
+	        
 	        // Ergebnissätze durchfahren.
 	        int index = 0;
 	        while (result.next()) {
 
 	        	String date = result.getString("date");
-	        	int zahl_1 = result.getInt("zahl_1");
-	        	int zahl_2 = result.getInt("zahl_2");
-	        	int zahl_3 = result.getInt("zahl_3");
-	        	int zahl_4 = result.getInt("zahl_4");
-	        	int zahl_5 = result.getInt("zahl_5");
-	        	int zahl_6 = result.getInt("zahl_6");
+	        	int[] numbers = new int[6];
+	        	numbers[0] = result.getInt("zahl_1");
+	        	numbers[1] = result.getInt("zahl_2");
+	        	numbers[2] = result.getInt("zahl_3");
+	        	numbers[3] = result.getInt("zahl_4");
+	        	numbers[4] = result.getInt("zahl_5");
+	        	numbers[5] = result.getInt("zahl_6");
 	        	int szahl = result.getInt("szahl");
 
-
-	        	lottoTable[index][0] = date; // Object-Container befüllen
-	        	lottoTable[index][1] = zahl_1;
-	        	lottoTable[index][2] = zahl_2;
-	        	lottoTable[index][3] = zahl_3;
-	        	lottoTable[index][4] = zahl_4;
-	        	lottoTable[index][5] = zahl_5;
-	        	lottoTable[index][6] = zahl_6;
-	        	lottoTable[index][7] = szahl;
+	        	LottoNumberSet lottoSet = new LottoNumberSet();
+	        	
+	        	lottoSet.setDate(date);
+	        	lottoSet.setNumbers(numbers);
+	        	lottoSet.setSzahl(szahl);
+	    
+	        	lottoResultList.add(lottoSet);
 
 	        	index++;
 	        }
@@ -149,67 +155,67 @@ public class DB_ConnectionHelper {
 	      }
 	    }
 	    
-	    return lottoTable;
+	    return lottoResultList;
 	  }
 	  
-	  public static Object[][] getLottoTipps()
+	  public static ObservableList<LottoNumberSet> getLottoTipps()
 	  {
-	    conn = getInstance();
+		  conn = getInstance();
+			 
+		    ObservableList<LottoNumberSet> lottoResultList = FXCollections.observableArrayList();
+		    
+		    if(conn != null)
+		    {
+		      // Anfrage-Statement erzeugen.
+		      Statement query;
 	 
-	    if(conn != null)
-	    {
-	      // Anfrage-Statement erzeugen.
-	      Statement query;
- 
-	      try {
-	        query = conn.createStatement();
-	        
-	        int rowCount;
-	 
-	        // Ergebnistabelle erzeugen und abholen.
-	        String sql = "SELECT date, zahl_1, zahl_2, zahl_3, zahl_4, zahl_5, zahl_6, szahl FROM tipps "
-	            + "ORDER BY date DESC";
-	        ResultSet result = query.executeQuery(sql);
-	        
-	        // Anzahl der Zeilen aus dem ResultSet auslesen
-	        result.last();
-	        rowCount = result.getRow();
-	        result.beforeFirst();
-	        
-	        lottoTable = new Object[rowCount][8]; // Object-Container für die Datensätze der score_db
+		      try {
+		        query = conn.createStatement();
+		        
+//		        int rowCount;
+		 
+		        // Ergebnistabelle erzeugen und abholen.
+		        String sql = "SELECT date, zahl_1, zahl_2, zahl_3, zahl_4, zahl_5, zahl_6, szahl FROM tipps "
+		            + "ORDER BY date DESC";
+		        ResultSet result = query.executeQuery(sql);
+		        
+		        // Anzahl der Zeilen aus dem ResultSet auslesen
+//		        result.last();
+//		        rowCount = result.getRow();
+//		        result.beforeFirst();
+		        
+		        
+		        // Ergebnissätze durchfahren.
+		        int index = 0;
+		        while (result.next()) {
 
-	        // Ergebnissätze durchfahren.
-	        int index = 0;
-	        while (result.next()) {
+		        	String date = result.getString("date");
+		        	int[] numbers = new int[6];
+		        	numbers[0] = result.getInt("zahl_1");
+		        	numbers[1] = result.getInt("zahl_2");
+		        	numbers[2] = result.getInt("zahl_3");
+		        	numbers[3] = result.getInt("zahl_4");
+		        	numbers[4] = result.getInt("zahl_5");
+		        	numbers[5] = result.getInt("zahl_6");
+		        	int szahl = result.getInt("szahl");
 
-	        	String date = result.getString("date");
-	        	int zahl_1 = result.getInt("zahl_1");
-	        	int zahl_2 = result.getInt("zahl_2");
-	        	int zahl_3 = result.getInt("zahl_3");
-	        	int zahl_4 = result.getInt("zahl_4");
-	        	int zahl_5 = result.getInt("zahl_5");
-	        	int zahl_6 = result.getInt("zahl_6");
-	        	int szahl = result.getInt("szahl");
+		        	LottoNumberSet lottoSet = new LottoNumberSet();
+		        	
+		        	lottoSet.setDate(date);
+		        	lottoSet.setNumbers(numbers);
+		        	lottoSet.setSzahl(szahl);
+		    
+		        	lottoResultList.add(lottoSet);
 
-
-	        	lottoTable[index][0] = date; // Object-Container befüllen
-	        	lottoTable[index][1] = zahl_1;
-	        	lottoTable[index][2] = zahl_2;
-	        	lottoTable[index][3] = zahl_3;
-	        	lottoTable[index][4] = zahl_4;
-	        	lottoTable[index][5] = zahl_5;
-	        	lottoTable[index][6] = zahl_6;
-	        	lottoTable[index][7] = szahl;
-
-	        	index++;
-	        }
-	        System.out.println("Anzahl Einträge: " + index);
-	      } catch (SQLException e) {
-	    	  e.printStackTrace();
-	      }
-	    }
-	    
-	    return lottoTable;
+		        	index++;
+		        }
+		        System.out.println("Anzahl Einträge: " + index);
+		      } catch (SQLException e) {
+		    	  e.printStackTrace();
+		      }
+		    }
+		    
+		    return lottoResultList;
 	  }
 //	  
 //	  

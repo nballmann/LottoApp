@@ -18,8 +18,10 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
@@ -29,6 +31,7 @@ import org.nic.lotto.model.LottoNumber;
 import org.nic.lotto.model.LottoNumberSet;
 import org.nic.lotto.util.AnimationHelper;
 import org.nic.lotto.util.ConnectionHelper;
+import org.nic.lotto.util.DB_ConnectionHelper;
 import org.nic.lotto.util.IController;
 import org.nic.lotto.util.RandomLottoNumGenerator;
 
@@ -64,9 +67,13 @@ public class NumberPanelController implements Initializable, IController
 	@FXML
 	private Group centerToLeft;
 	
-	private ObservableMap<String,ToggleButton> gridButtons = FXCollections.observableMap(new HashMap<String,ToggleButton>());
+	private ObservableMap<String,ToggleButton> gridButtons = 
+			FXCollections.observableMap(new HashMap<String,ToggleButton>());
 	
-	private TableView<LottoNumberSet> lottoTableView;
+	private TableView<LottoNumberSet> lottoTableView = new TableView<LottoNumberSet>();
+	private TableColumn<LottoNumberSet,String> dateColumn = new TableColumn<>();
+	private TableColumn<LottoNumberSet,String> numbersColumn = new TableColumn<>();
+	private TableColumn<LottoNumberSet,Integer> szahlColumn = new TableColumn<>();
 
 	@FXML
 	private void handleCenterToLeft()
@@ -107,6 +114,11 @@ public class NumberPanelController implements Initializable, IController
 		initRndNumbers();
 		
 		initActualNumbers();
+		
+		anchorPane_bottom.getChildren().add(lottoTableView);
+		generateTableView();
+		
+		lottoTableView.relocate(75, 120);
 	}
 	
 	private void initActualNumbers()
@@ -192,9 +204,33 @@ public class NumberPanelController implements Initializable, IController
 	}
 	 
 
+	@SuppressWarnings("unchecked")
 	private void generateTableView()
 	{
 		
+		dateColumn.setPrefWidth(160);
+		dateColumn.setEditable(false);
+		dateColumn.setText("Date");
+		
+		numbersColumn.setPrefWidth(250);
+		numbersColumn.setEditable(false);
+		numbersColumn.setText("Lottozahlen");
+		
+		szahlColumn.setPrefWidth(40);
+		szahlColumn.setEditable(false);
+		szahlColumn.setText("SuperZahl");
+		
+		lottoTableView.setPrefWidth(450);
+		lottoTableView.setPrefHeight(450);
+		
+		dateColumn.setCellValueFactory(new PropertyValueFactory<LottoNumberSet, String>("date"));
+		numbersColumn.setCellValueFactory(new PropertyValueFactory<LottoNumberSet, String>("numbers"));
+		szahlColumn.setCellValueFactory(new PropertyValueFactory<LottoNumberSet, Integer>("szahl"));
+		
+		lottoTableView.columnResizePolicyProperty().set(TableView.CONSTRAINED_RESIZE_POLICY);
+		lottoTableView.getColumns().addAll(dateColumn,numbersColumn,szahlColumn);
+		
+		lottoTableView.setItems(DB_ConnectionHelper.getLottoZiehungen());
 	}
 	
 }

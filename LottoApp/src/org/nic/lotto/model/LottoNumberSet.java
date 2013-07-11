@@ -1,6 +1,8 @@
 package org.nic.lotto.model;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class LottoNumberSet 
@@ -9,23 +11,32 @@ public class LottoNumberSet
 	
 	public String getDate()					{ return date.get(); }
 	public StringProperty dateProperty()	{ return date; }
-	public void setDate(final String value)					{ date.set(value); }
+	public void setDate(final String value)		{ date.set(value); }
 	
 	
-	private IntegerProperty zahl_1;
+	private StringProperty numbers;
 	
-	public int getZahl_1()				{ return zahl_1.get(); }
-	public IntegerProperty zahl_1Property()	{ return zahl_1; }
-	public void setZahl_1(final int value)	{ zahl_1.set(value); }
+	public String getNumbers()				{ return numbers.get(); }
+	public StringProperty numbersProperty() { return numbers; }
+	public void setNumbers(final int[] n)	{ 
+		numbers.set(
+				n[0] + ", " + n[1] + ", " + n[2] + 
+				", "+ n[3] + ", " + n[4] + ", " + n[5]
+					);
+	}
 	
-	private IntegerProperty zahl_2;
-	private IntegerProperty zahl_3;
-	private IntegerProperty zahl_4;
-	private IntegerProperty zahl_5;
-	private IntegerProperty zahl_6;
 	private IntegerProperty szahl;
 	
+	public int getSZahl()					{ return szahl.get(); }
+	public IntegerProperty szahlProperty()	{ return szahl; }
+	public void setSzahl(final int value)	{ szahl.set(value); }
 	
 	
-	// TODO implement db object
+	public LottoNumberSet()
+	{
+		date = new SimpleStringProperty();
+		numbers = new SimpleStringProperty();
+		szahl = new SimpleIntegerProperty();
+	}
+	
 }
