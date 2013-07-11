@@ -24,7 +24,7 @@ public final class LottoNumber extends Group
 			txt.setLayoutX(-18);
 			txt.setLayoutY(11);
 		}
-		
+	
 		idProperty().set("number_" + number);
 		getChildren().addAll(circ, txt);
 	}
@@ -46,6 +46,7 @@ public final class LottoNumber extends Group
 			txt.setLayoutX(-18);
 			txt.setLayoutY(11);
 		}
+		
 		
 		idProperty().set("actualNumber_" + number);
 		getChildren().addAll(circ, txt);
@@ -69,6 +70,7 @@ public final class LottoNumber extends Group
 		} else {
 			idProperty().set("actualSuperNumber_" + number);
 		}
+		
 		getChildren().addAll(circ, txt);	
 	}
 }

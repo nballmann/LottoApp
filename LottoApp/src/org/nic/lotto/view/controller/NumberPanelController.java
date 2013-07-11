@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
+import javafx.animation.ParallelTransition;
+import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
@@ -15,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -22,6 +26,8 @@ import javafx.util.Duration;
 
 import org.nic.lotto.LottoApp;
 import org.nic.lotto.model.LottoNumber;
+import org.nic.lotto.model.LottoNumberSet;
+import org.nic.lotto.util.AnimationHelper;
 import org.nic.lotto.util.ConnectionHelper;
 import org.nic.lotto.util.IController;
 import org.nic.lotto.util.RandomLottoNumGenerator;
@@ -59,6 +65,8 @@ public class NumberPanelController implements Initializable, IController
 	private Group centerToLeft;
 	
 	private ObservableMap<String,ToggleButton> gridButtons = FXCollections.observableMap(new HashMap<String,ToggleButton>());
+	
+	private TableView<LottoNumberSet> lottoTableView;
 
 	@FXML
 	private void handleCenterToLeft()
@@ -105,13 +113,26 @@ public class NumberPanelController implements Initializable, IController
 	{
 		int[] actualNumbers = ConnectionHelper.getActualLottoNumbers();
 		
+		ArrayList<Animation> animationList = new ArrayList<>();
+		
 		for(int i=0; i<6;i++)
 		{
-			anchorPane_center.getChildren().add(new LottoNumber(actualNumbers[i], 'a'));
-			anchorPane_center.lookup("#actualNumber_" + actualNumbers[i]).relocate(60+i*70, 80);
+			Group actualNumber = new LottoNumber(actualNumbers[i], 'a');
+			anchorPane_center.getChildren().add(actualNumber);
+			actualNumber.setVisible(false);
+//			anchorPane_center.lookup("#actualNumber_" + actualNumbers[i]).relocate(60+i*70, 80);
+//			actualNumber.relocate(650, 80);
+			ParallelTransition transition = AnimationHelper.getTransition(actualNumber, i, true);
+			animationList.add(transition);
 		}
 		anchorPane_center.getChildren().add(new LottoNumber(actualNumbers[6], false));
-		anchorPane_center.lookup("#actualSuperNumber_" + actualNumbers[6]).relocate(60+6*70, 80);		
+//		anchorPane_center.lookup("#actualSuperNumber_" + actualNumbers[6]).relocate(60+6*70, 80);
+		anchorPane_center.lookup("#actualSuperNumber_" + actualNumbers[6]).setVisible(false);
+		animationList.add(AnimationHelper.getTransition((Group) anchorPane_center.lookup("#actualSuperNumber_" + actualNumbers[6]), 6, true));
+		
+		SequentialTransition sequenz = new SequentialTransition();
+		sequenz.getChildren().addAll(animationList);
+		sequenz.play();
 	}
 	
 	private void initRndNumbers()
@@ -169,19 +190,11 @@ public class NumberPanelController implements Initializable, IController
 		timeline.getKeyFrames().addAll(kf_x,kf_y);
 		timeline.play();
 	}
+	 
+
+	private void generateTableView()
+	{
+		
+	}
 	
-//	private static void ensureVisible(ScrollPane pane, Node node) {
-//		double width = pane.getContent().getBoundsInLocal().getWidth();
-//		double height = pane.getContent().getBoundsInLocal().getHeight();
-//
-//		double x = node.getBoundsInParent().getMaxX();
-//		double y = node.getBoundsInParent().getMaxY();
-//
-//		// scrolling values range from 0 to 1
-//		pane.setVvalue(y/height);
-//		pane.setHvalue(x/width);
-//
-//		// just for usability
-//		node.requestFocus();
-//	}
 }
