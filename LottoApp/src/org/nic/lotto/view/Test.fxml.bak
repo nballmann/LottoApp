@@ -2,7 +2,9 @@
 
 <?import java.lang.*?>
 <?import java.net.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,7 +12,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" styleClass="background" xmlns:fx="http://javafx.com/fxml">
+<AnchorPane prefHeight="600.0" prefWidth="1800.0" styleClass="background" xmlns:fx="http://javafx.com/fxml">
   <!-- TODO Add Nodes -->
   <children>
     <Group id="Group" fx:id="centerToBottom" layoutX="248.0" layoutY="548.0">
@@ -67,6 +69,32 @@
         </Text>
       </children>
     </Group>
+    <TableView layoutX="777.0" layoutY="101.0" prefHeight="400.0" prefWidth="300.0" styleClass="background">
+      <columns>
+        <TableColumn editable="false" minWidth="80.0" sortType="DESCENDING" text="Datum" />
+        <TableColumn editable="false" minWidth="120.0" prefWidth="120.0" sortable="false" text="Lottozahlen" />
+        <TableColumn editable="false" minWidth="100.0" prefWidth="100.0" sortable="false" text="Superzahl" />
+      </columns>
+      <stylesheets>
+        <URL value="@Theme.css" />
+      </stylesheets>
+    </TableView>
+    <HBox id="HBox" alignment="CENTER" layoutX="782.0" spacing="60.0" AnchorPane.bottomAnchor="40.0">
+      <children>
+        <Button fx:id="resetButton" mnemonicParsing="false" onAction="#handleReset" prefHeight="30.0" prefWidth="115.0" text="Reset" />
+        <Button fx:id="tippButton" mnemonicParsing="false" onAction="#handleTippAbgeben" prefHeight="30.0" prefWidth="115.0" text="Tipp abgeben" />
+      </children>
+    </HBox>
+    <VBox id="VBox" alignment="CENTER_LEFT" layoutX="1211.0" layoutY="56.0" spacing="6.0">
+      <children>
+        <Label text="Betrag eingeben:" VBox.vgrow="NEVER" />
+        <TextField fx:id="moneyInput" alignment="CENTER_RIGHT" onInputMethodTextChanged="#handleTextInput" prefWidth="200.0" VBox.vgrow="NEVER">
+          <VBox.margin>
+            <Insets right="3.0" />
+          </VBox.margin>
+        </TextField>
+      </children>
+    </VBox>
   </children>
   <stylesheets>
     <URL value="@Theme.css" />

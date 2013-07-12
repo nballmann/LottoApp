@@ -141,11 +141,16 @@
             </AnchorPane>
             <AnchorPane fx:id="anchorPane_top" layoutX="600.0" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="background">
               <children>
-                <ImageView fitHeight="600.0" fitWidth="600.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                    <Image url="@../../../../../res/bg_header_content~1.png" preserveRatio="false" smooth="false" />
-                  </image>
-                </ImageView>
+                <VBox id="VBox" alignment="CENTER_LEFT" layoutX="100" layoutY="100.0" spacing="6.0">
+     			 <children>
+       	 			<Label text="Betrag eingeben:" VBox.vgrow="NEVER" />
+        			<TextField fx:id="moneyInput" onAction="#handleTextInput" alignment="CENTER_RIGHT" prefWidth="200.0">
+          			<stylesheets>
+            			<URL value="@Theme.css" />
+         			 </stylesheets>
+       				</TextField>
+      			</children>
+    			</VBox>
                 <Group id="Group" fx:id="topToCenter" layoutX="248.0" layoutY="550.0" onMouseClicked="#handleToCenter">
                   <children>
                     <Line endX="100.0" layoutX="2.0" layoutY="2.0" stroke="$x1" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
@@ -153,29 +158,6 @@
                     <Text fill="$x1" font="$x2" layoutX="13.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Down" />
                   </children>
                 </Group>
-                <GridPane id="gridPane" alignment="CENTER" layoutX="113.0" layoutY="113.0" maxHeight="374.0" maxWidth="374.0" minHeight="374.0" minWidth="374.0" prefHeight="374.0" prefWidth="374.0" styleClass="grid-pane">
-                  <columnConstraints>
-                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
-                    <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
-                    <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
-                    <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
-                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
-                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
-                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
-                  </columnConstraints>
-                  <rowConstraints>
-                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
-                    <RowConstraints fillHeight="false" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
-                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
-                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
-                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
-                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
-                    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
-                  </rowConstraints>
-                  <stylesheets>
-                    <URL value="@Theme.css" />
-                  </stylesheets>
-                </GridPane>
               </children>
               <stylesheets>
                 <URL value="@Theme.css" />
@@ -218,6 +200,12 @@
                     <URL value="@Theme.css" />
                   </stylesheets>
                 </GridPane>
+                 <HBox id="HBox" alignment="CENTER" layoutX="155" spacing="60.0" AnchorPane.bottomAnchor="40.0">
+     		 		<children>
+        				<Button fx:id="resetButton" mnemonicParsing="false" onAction="#handleReset" prefHeight="30.0" prefWidth="115.0" text="Reset" />
+       	 				<Button fx:id="tippButton" mnemonicParsing="false" onAction="#handleTippAbgeben" prefHeight="30.0" prefWidth="115.0" text="Tipp abgeben" />
+      				</children>
+    			</HBox>
               </children>
               <stylesheets>
                 <URL value="@Theme.css" />
@@ -225,11 +213,6 @@
             </AnchorPane>
             <AnchorPane fx:id="anchorPane_bottom" layoutX="600.0" layoutY="1200.0" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="background">
               <children>
-                <ImageView fitHeight="600.0" fitWidth="600.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                    <Image url="@../../../../../res/bg_header_content~1.png" preserveRatio="false" smooth="false" />
-                  </image>
-                </ImageView>
                 <Group id="Group" fx:id="bottomToCenter" layoutX="247.0" onMouseClicked="#handleToCenter">
                   <children>
                     <Line endX="100.0" layoutX="2.0" layoutY="52.0" stroke="$x1" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />

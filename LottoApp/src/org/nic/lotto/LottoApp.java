@@ -58,7 +58,7 @@ public class LottoApp extends Application
 			});
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		numberPanelController = (NumberPanelController) parentControllerMap.get(screens.get(NUMBER_PANEL_ID));
@@ -77,7 +77,7 @@ public class LottoApp extends Application
 			screens.put(id, parent);
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 	}

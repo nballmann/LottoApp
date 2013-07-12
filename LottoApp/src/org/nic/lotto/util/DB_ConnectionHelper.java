@@ -2,10 +2,10 @@ package org.nic.lotto.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -13,6 +13,7 @@ import org.nic.lotto.model.LottoNumberSet;
 
 
 public class DB_ConnectionHelper {
+	
 	
 	private static Connection conn = null;
 	 
@@ -61,41 +62,7 @@ public class DB_ConnectionHelper {
 	    	new DB_ConnectionHelper();
 	    	return conn;
 	  }
-	 
-//	  /**
-//	   * Schreibt die Namensliste in die Konsole
-//	   */
-//	  public static void printScoreList()
-//	  {
-//	    conn = getInstance();
-//	 
-//	    if(conn != null)
-//	    {
-//	      // Anfrage-Statement erzeugen.
-//	      Statement query;
-//	      try {
-//	        query = conn.createStatement();
-//	 
-//	        // Ergebnistabelle erzeugen und abholen.
-//	        String sql = "SELECT player_score, cpu_score, cpu_level FROM score_db "
-//	            + "ORDER BY timestamp";
-//	        ResultSet result = query.executeQuery(sql);
-//	
-//	        // Ergebnissätze durchfahren.
-//	        while (result.next()) {
-//	          int player_score = result.getInt("player_score"); // Alternativ: result.getString(1);
-//	          int cpu_score = result.getInt("cpu_score");
-//	          String cpu_level = result.getString("cpu_level");// Alternativ: result.getString(2);
-//	          String score = player_score + ":" + cpu_score + " Level: " + cpu_level;
-//	          System.out.println(score);
-//	        }
-//	      } catch (SQLException e) {
-//	        e.printStackTrace();
-//	      }
-//	    }
-//	  }
-//	  
-//	  
+
 	  public static ObservableList<LottoNumberSet> getLottoZiehungen()
 	  {
 	    conn = getInstance();
@@ -121,8 +88,6 @@ public class DB_ConnectionHelper {
 //	        result.last();
 //	        rowCount = result.getRow();
 //	        result.beforeFirst();
-	        
-//	        lottoTable = new Object[rowCount][8]; // Object-Container für die Datensätze der score_db
 	        
 	        
 	        // Ergebnissätze durchfahren.
@@ -217,51 +182,108 @@ public class DB_ConnectionHelper {
 		    
 		    return lottoResultList;
 	  }
-//	  
-//	  
-//	 
-//	  /**
-//	   * Fügt einen neuen Datensatz hinzu
-//	   */
-//	  public static void insertScore(int player_score, int cpu_score, String cpu_level)
-//	  {
-//	    conn = getInstance();
-//	 
-//	    if(conn != null)
-//	    {
-//	      try {
-//	 
-//	        // Insert-Statement erzeugen (Fragezeichen werden später ersetzt).
-//	        String sql = "INSERT INTO score_db(player_score, cpu_score, cpu_level) " +
-//	                     "VALUES(?, ?, ?)";
-//	        PreparedStatement preparedStatement = conn.prepareStatement(sql);
-//	        // Erstes Fragezeichen durch "player_score" Parameter ersetzen
-//	        preparedStatement.setInt(1, player_score);
-//	        // Zweites Fragezeichen durch "cpu_score" Parameter ersetzen
-//	        preparedStatement.setInt(2, cpu_score);
-//	        // Drittes Fragezeichen durch "cpu_level" Parameter ersetzen
-//	        preparedStatement.setString(3, cpu_level);
-//	        // SQL ausführen.
-//	        preparedStatement.executeUpdate();
-//	 
-//	        // Es wird der letzte Datensatz abgefragt
-//	        String lastScore = "SELECT player_score, cpu_score, cpu_level " +
-//	                           "FROM score_db " +
-//	                           "ORDER BY player_score DESC LIMIT 1";
-//	        ResultSet result = preparedStatement.executeQuery(lastScore);
-//	 
-//	        // Wenn ein Datensatz gefunden wurde, wird auf diesen zugegriffen
-//	        if(result.next())
-//	        {
-//	          System.out.println(result.getInt(1) + ":" +
-//	              result.getInt(2) + " Level: " +
-//	              result.getString(3));
-//	        }
-//	      } catch (SQLException e) {
-//	        e.printStackTrace();
-//	      }
-//	    }
-//	  }
+	  
+	  
+	 
+	  /**
+	   * Fügt einen neuen Datensatz hinzu
+	   */
+	  public static void insertNumbersIntoZiehungen(String date, int zahl_1, int zahl_2, int zahl_3, int zahl_4, int zahl_5, int zahl_6, int szahl)
+	  {
+	    conn = getInstance();
+	 
+	    if(conn != null)
+	    {
+	      try {
+	 
+	        // Insert-Statement erzeugen (Fragezeichen werden später ersetzt).
+	        String sql = "INSERT INTO ziehungen(date, zahl_1, zahl_2, zahl_3, zahl_4, zahl_5, zahl_6, szahl) " +
+	                     "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+	        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+	        preparedStatement.setString(1, date);
+	        preparedStatement.setInt(2, zahl_1);
+	        preparedStatement.setInt(3, zahl_2);
+	        preparedStatement.setInt(4, zahl_3);
+	        preparedStatement.setInt(5, zahl_4);
+	        preparedStatement.setInt(6, zahl_5);
+	        preparedStatement.setInt(7, zahl_6);
+	        preparedStatement.setInt(8, szahl);
+	        // SQL ausführen.
+	        preparedStatement.executeUpdate();
+	 
+	        // Es wird der letzte Datensatz abgefragt
+	        String lastScore = "SELECT date, zahl_1, zahl_2, zahl_3, zahl_4, zahl_5, zahl_6, szahl " +
+	                           "FROM ziehungen " +
+	                           "ORDER BY date DESC LIMIT 1";
+	        ResultSet result = preparedStatement.executeQuery(lastScore);
+	 
+	        // Wenn ein Datensatz gefunden wurde, wird auf diesen zugegriffen
+	        if(result.next())
+	        {
+	        	System.out.println(result.getString(1) + " " +
+	        			result.getInt(2) + " " +
+	        			result.getInt(3) + " " +
+	        			result.getInt(4) + " " +
+	        			result.getInt(5) + " " +
+	        			result.getInt(6) + " " +
+	        			result.getInt(7) + " " +
+	        			result.getInt(8));
+	        }
+	      } catch (SQLException e) {
+	    	  e.printStackTrace();
+	      }
+	    }
+	  }
+	  
+	  /**
+	   * Fügt einen neuen Datensatz hinzu
+	   */
+	  public static void insertNumbersIntoTipps(String date, int zahl_1, int zahl_2, int zahl_3, int zahl_4, int zahl_5, int zahl_6, int szahl)
+	  {
+	    conn = getInstance();
+	 
+	    if(conn != null)
+	    {
+	      try {
+	 
+	        // Insert-Statement erzeugen (Fragezeichen werden später ersetzt).
+	        String sql = "INSERT INTO tipps(date, zahl_1, zahl_2, zahl_3, zahl_4, zahl_5, zahl_6, szahl) " +
+	                     "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+	        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+	        preparedStatement.setString(1, date);
+	        preparedStatement.setInt(2, zahl_1);
+	        preparedStatement.setInt(3, zahl_2);
+	        preparedStatement.setInt(4, zahl_3);
+	        preparedStatement.setInt(5, zahl_4);
+	        preparedStatement.setInt(6, zahl_5);
+	        preparedStatement.setInt(7, zahl_6);
+	        preparedStatement.setInt(8, szahl);
+	        // SQL ausführen.
+	        preparedStatement.executeUpdate();
+	 
+	        // Es wird der letzte Datensatz abgefragt
+	        String lastScore = "SELECT date, zahl_1, zahl_2, zahl_3, zahl_4, zahl_5, zahl_6, szahl " +
+	                           "FROM tipps " +
+	                           "ORDER BY date DESC LIMIT 1";
+	        ResultSet result = preparedStatement.executeQuery(lastScore);
+	 
+	        // Wenn ein Datensatz gefunden wurde, wird auf diesen zugegriffen
+	        if(result.next())
+	        {
+	        	System.out.println(result.getString(1) + " " +
+	        			result.getInt(2) + " " +
+	        			result.getInt(3) + " " +
+	        			result.getInt(4) + " " +
+	        			result.getInt(5) + " " +
+	        			result.getInt(6) + " " +
+	        			result.getInt(7) + " " +
+	        			result.getInt(8));
+	        }
+	      } catch (SQLException e) {
+	    	  e.printStackTrace();
+	      }
+	    }
+	  }
 //	 
 //	  /**
 //	   * Aktualisiert den Datensatz mit der übergebenen actorId

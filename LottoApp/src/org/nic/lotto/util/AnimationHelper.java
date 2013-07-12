@@ -20,6 +20,7 @@ public final class AnimationHelper
 		ParallelTransition parallelTransition = new ParallelTransition();
 		
 		int xCoord = 90+numberIndex*70;
+	
 		
 		parallelTransition.getChildren().addAll(
 				getTranslateTransition(xCoord, numberIndex, lottoNumber, isActualNumber),
@@ -62,11 +63,13 @@ public final class AnimationHelper
 		return transition;
 	}
 	
+	
+	
 	private static RotateTransition getRotateTransition(final int numberIndex, final Group group)
 	{
 		RotateTransition transition = new RotateTransition(Duration.millis((8-numberIndex)*300), group);
 		transition.setCycleCount(1);
-		transition.setFromAngle(360-(numberIndex*numberIndex*10));
+		transition.setFromAngle(360-(numberIndex*numberIndex*15));
 		transition.setToAngle(-360);
 		transition.setByAngle(0);
 		

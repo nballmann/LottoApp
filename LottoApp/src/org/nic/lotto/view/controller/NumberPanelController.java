@@ -1,6 +1,8 @@
 package org.nic.lotto.view.controller;
 
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -11,15 +13,22 @@ import javafx.animation.KeyValue;
 import javafx.animation.ParallelTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -34,6 +43,7 @@ import org.nic.lotto.util.ConnectionHelper;
 import org.nic.lotto.util.DB_ConnectionHelper;
 import org.nic.lotto.util.IController;
 import org.nic.lotto.util.RandomLottoNumGenerator;
+import org.nic.lotto.util.TimeUtil;
 
 public class NumberPanelController implements Initializable, IController
 {
@@ -67,6 +77,12 @@ public class NumberPanelController implements Initializable, IController
 	@FXML
 	private Group centerToLeft;
 	
+	@FXML
+	private Button tippButton;
+	
+	@FXML
+	private TextField moneyInput;
+	
 	private ObservableMap<String,ToggleButton> gridButtons = 
 			FXCollections.observableMap(new HashMap<String,ToggleButton>());
 	
@@ -74,6 +90,10 @@ public class NumberPanelController implements Initializable, IController
 	private TableColumn<LottoNumberSet,String> dateColumn = new TableColumn<>();
 	private TableColumn<LottoNumberSet,String> numbersColumn = new TableColumn<>();
 	private TableColumn<LottoNumberSet,Integer> szahlColumn = new TableColumn<>();
+	
+	private ObservableList<BooleanProperty> userTipps = FXCollections.observableArrayList();
+	
+	private ArrayList<Integer> actualUserTipps = new ArrayList<>();
 
 	@FXML
 	private void handleCenterToLeft()
@@ -104,13 +124,106 @@ public class NumberPanelController implements Initializable, IController
 	{
 		gotoPanel(900,900);
 	}
+	
+	@FXML
+	private void handleReset()
+	{
+		for(int i=1;i<50;i++)
+		{
+			gridButtons.get(String.valueOf(i)).selectedProperty().set(false);
+		}
+	}
+	
+	String oldString = "";
+	
+	@FXML
+	private void handleTextInput()
+	{
+		if(moneyInput.getText()=="")
+			oldString="";
+		else {
+			
+			try {
+				double d = Double.parseDouble(moneyInput.getText());
+				
+				NumberFormat fm = new DecimalFormat("#0.00");
+				moneyInput.setText(fm.format(d) + "€");
+				
+			} catch (NumberFormatException e) {
+				moneyInput.setText(oldString);
+			}
+		}
+		
+		oldString = moneyInput.getText();
+		
+	}
+	
+	@FXML
+	private void handleTippAbgeben()
+	{
+		DB_ConnectionHelper.insertNumbersIntoTipps(
+				TimeUtil.getFormattedTime(), 
+				actualUserTipps.get(0), 
+				actualUserTipps.get(1), 
+				actualUserTipps.get(2), 
+				actualUserTipps.get(3), 
+				actualUserTipps.get(4), 
+				actualUserTipps.get(5), 
+				RandomLottoNumGenerator.generateSuperNumber()
+				);
+	}
+	
+	private class BtnChangeListener implements ChangeListener<Boolean>
+	{
+
+		@Override
+		public void changed(ObservableValue<? extends Boolean> observable,
+				Boolean oldValue, Boolean newValue) {
+
+			int count = 0;
+			
+			for(BooleanProperty bool : userTipps)
+			{
+				if(bool.get())
+				{
+					count++;
+				}
+			}
+			if(count==6)
+			{
+				actualUserTipps.clear();
+				
+				for(int i=1;i<50;i++)
+				{
+					if(!gridButtons.get(String.valueOf(i)).isSelected())
+						gridButtons.get(String.valueOf(i)).disableProperty().set(true);
+					else
+						actualUserTipps.add(i);
+				}
+				
+				tippButton.disableProperty().set(false);
+			}
+			else
+			{
+				tippButton.disableProperty().set(true);
+				for(int i=1;i<50;i++)
+				{
+					gridButtons.get(String.valueOf(i)).disableProperty().set(false);
+				}
+			}
+		}
+		
+	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
 		gridPane.getStyleClass().add("grid-pane");	
 		initGrid();
-
+		tippButton.disableProperty().set(true);
+		
+		manageUserTipps();
+		
 		initRndNumbers();
 		
 		initActualNumbers();
@@ -132,13 +245,11 @@ public class NumberPanelController implements Initializable, IController
 			Group actualNumber = new LottoNumber(actualNumbers[i], 'a');
 			anchorPane_center.getChildren().add(actualNumber);
 			actualNumber.setVisible(false);
-//			anchorPane_center.lookup("#actualNumber_" + actualNumbers[i]).relocate(60+i*70, 80);
-//			actualNumber.relocate(650, 80);
+
 			ParallelTransition transition = AnimationHelper.getTransition(actualNumber, i, true);
 			animationList.add(transition);
 		}
 		anchorPane_center.getChildren().add(new LottoNumber(actualNumbers[6], false));
-//		anchorPane_center.lookup("#actualSuperNumber_" + actualNumbers[6]).relocate(60+6*70, 80);
 		anchorPane_center.lookup("#actualSuperNumber_" + actualNumbers[6]).setVisible(false);
 		animationList.add(AnimationHelper.getTransition((Group) anchorPane_center.lookup("#actualSuperNumber_" + actualNumbers[6]), 6, true));
 		
@@ -172,14 +283,26 @@ public class NumberPanelController implements Initializable, IController
 			{
 				ToggleButton tempBtn = new ToggleButton(String.valueOf((j+1)+(i*7)));
 				tempBtn.setPrefSize(50, 50);
-				tempBtn.setAlignment(Pos.CENTER);
+				tempBtn.setAlignment(Pos.CENTER);			
+				tempBtn.setId(String.valueOf((j+1)+(i*7)));
 				
 				gridButtons.put(String.valueOf((j+1)+(i*7)), tempBtn);
-				
 				gridPane.add(tempBtn, j, i);
 			}
 		}
 	}
+	
+	private void manageUserTipps()
+	{
+		for(int i=1;i<50;i++)
+		{
+			BooleanProperty bool = new SimpleBooleanProperty(false);
+			bool.addListener(new BtnChangeListener());
+			gridButtons.get(String.valueOf(i)).selectedProperty().bindBidirectional(bool);
+			userTipps.add(bool);
+		}
+	}
+	
 
 	public void setMainApp(LottoApp lottoApp) 
 	{
@@ -207,16 +330,18 @@ public class NumberPanelController implements Initializable, IController
 	@SuppressWarnings("unchecked")
 	private void generateTableView()
 	{
-		
-		dateColumn.setPrefWidth(160);
+		dateColumn.setPrefWidth(100);
+		dateColumn.setMaxWidth(100);
 		dateColumn.setEditable(false);
 		dateColumn.setText("Date");
 		
 		numbersColumn.setPrefWidth(250);
+		numbersColumn.setMaxWidth(250);
 		numbersColumn.setEditable(false);
 		numbersColumn.setText("Lottozahlen");
 		
-		szahlColumn.setPrefWidth(40);
+		szahlColumn.setPrefWidth(100);
+		szahlColumn.setMaxWidth(100);
 		szahlColumn.setEditable(false);
 		szahlColumn.setText("SuperZahl");
 		
