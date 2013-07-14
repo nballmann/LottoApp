@@ -135,6 +135,8 @@ public class NumberPanelController implements Initializable, IController
 	}
 	
 	String oldString = "";
+
+	private ArrayList<Integer> actualNumbers;
 	
 	@FXML
 	private void handleTextInput()
@@ -236,22 +238,22 @@ public class NumberPanelController implements Initializable, IController
 	
 	private void initActualNumbers()
 	{
-		int[] actualNumbers = ConnectionHelper.getActualLottoNumbers();
+		actualNumbers = ConnectionHelper.getActualLottoNumbers();
 		
 		ArrayList<Animation> animationList = new ArrayList<>();
 		
 		for(int i=0; i<6;i++)
 		{
-			Group actualNumber = new LottoNumber(actualNumbers[i], 'a');
+			Group actualNumber = new LottoNumber(actualNumbers.get(i), 'a');
 			anchorPane_center.getChildren().add(actualNumber);
 			actualNumber.setVisible(false);
 
 			ParallelTransition transition = AnimationHelper.getTransition(actualNumber, i, true);
 			animationList.add(transition);
 		}
-		anchorPane_center.getChildren().add(new LottoNumber(actualNumbers[6], false));
-		anchorPane_center.lookup("#actualSuperNumber_" + actualNumbers[6]).setVisible(false);
-		animationList.add(AnimationHelper.getTransition((Group) anchorPane_center.lookup("#actualSuperNumber_" + actualNumbers[6]), 6, true));
+		anchorPane_center.getChildren().add(new LottoNumber(actualNumbers.get(6), false));
+		anchorPane_center.lookup("#actualSuperNumber_" + actualNumbers.get(6)).setVisible(false);
+		animationList.add(AnimationHelper.getTransition((Group) anchorPane_center.lookup("#actualSuperNumber_" + actualNumbers.get(6)), 6, true));
 		
 		SequentialTransition sequenz = new SequentialTransition();
 		sequenz.getChildren().addAll(animationList);

@@ -2,6 +2,7 @@
 
 <?import java.lang.*?>
 <?import java.net.*?>
+<?import javafx.collections.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
@@ -88,13 +89,37 @@
     <VBox id="VBox" alignment="CENTER_LEFT" layoutX="1211.0" layoutY="56.0" spacing="6.0">
       <children>
         <Label text="Betrag eingeben:" VBox.vgrow="NEVER" />
-        <TextField fx:id="moneyInput" alignment="CENTER_RIGHT" onInputMethodTextChanged="#handleTextInput" prefWidth="200.0" VBox.vgrow="NEVER">
+        <TextField fx:id="moneyInput" alignment="CENTER_RIGHT" minHeight="30.0" onInputMethodTextChanged="#handleTextInput" prefWidth="200.0">
           <VBox.margin>
-            <Insets right="3.0" />
+            <Insets />
           </VBox.margin>
         </TextField>
       </children>
     </VBox>
+    <ChoiceBox layoutX="1273.0" layoutY="297.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Item 1" />
+          <String fx:value="Item 2" />
+          <String fx:value="Item 3" />
+        </FXCollections>
+      </items>
+      <stylesheets>
+        <URL value="@Theme.css" />
+      </stylesheets>
+    </ChoiceBox>
+    <ChoiceBox layoutX="1374.0" layoutY="297.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Item 1" />
+          <String fx:value="Item 2" />
+          <String fx:value="Item 3" />
+        </FXCollections>
+      </items>
+      <stylesheets>
+        <URL value="@Theme.css" />
+      </stylesheets>
+    </ChoiceBox>
   </children>
   <stylesheets>
     <URL value="@Theme.css" />

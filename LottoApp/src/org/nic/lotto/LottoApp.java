@@ -41,8 +41,8 @@ public class LottoApp extends Application
 
 			stage.setScene(scene);
 		
-			stage.maxHeightProperty().set(650);
-			stage.maxWidthProperty().set(650);
+			stage.maxHeightProperty().set(630);
+			stage.maxWidthProperty().set(606);
 			stage.centerOnScreen();
 			stage.setResizable(false);
 			stage.setTitle("App für Lottosüchtige Ver. 1.1B");

@@ -15,7 +15,7 @@ public final class RandomLottoNumGenerator
 		{
 			
 			int rnd = rng.nextInt(49)+1;
-//			System.out.println(rnd);
+
 			if(!numbers.contains(rnd))
 			{
 				numbers.add(rnd);

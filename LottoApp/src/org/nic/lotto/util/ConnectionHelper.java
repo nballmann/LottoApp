@@ -16,15 +16,16 @@ public final class ConnectionHelper
 	public static final String LOTTOZAHLEN_URL = "http://www.lottozahlenonline.de/data_extern/lottozahlen.php";
 	private static final String REGEX_IMG = "alt=\"([^\"]+)\"";
 	
+	// WBS proxy data
 	private static final String PROXY_IP = "10.140.142.10";
 	private static final String PROXY_PORT = "3128";
 	
 	
 	public static HttpURLConnection connectTo(String lottozahlenUrl) {
 		try {
-			Properties systemProperties = System.getProperties();
-			systemProperties.setProperty("http.proxyHost", PROXY_IP);
-			systemProperties.setProperty("http.proxyPort", PROXY_PORT);
+//			Properties systemProperties = System.getProperties();
+//			systemProperties.setProperty("http.proxyHost", PROXY_IP);
+//			systemProperties.setProperty("http.proxyPort", PROXY_PORT);
 			
 			URL url = new URL(lottozahlenUrl);
 			URLConnection con = url.openConnection();
@@ -49,10 +50,10 @@ public final class ConnectionHelper
 		return null;
 	}
 	
-	public static int[] getLottoNumbersFromInputStream(InputStream in)
+	public static ArrayList<Integer> getLottoNumbersFromInputStream(InputStream in)
 	{
 		ArrayList<String> strNumberList = new ArrayList<>();
-		int[] lottoNumbers = new int[7];
+		ArrayList<Integer> lottoNumbers = new ArrayList<Integer>();
 		
 		Scanner sc = new Scanner(in);
 		Pattern p = Pattern.compile(REGEX_IMG);
@@ -68,14 +69,14 @@ public final class ConnectionHelper
 		
 		for(int i=0;i<7;i++)
 		{
-			lottoNumbers[i] = Integer.parseInt(strNumberList.get(i));
-			System.out.println(lottoNumbers[i]);
+			lottoNumbers.add(Integer.parseInt(strNumberList.get(i)));
+			System.out.println(lottoNumbers.get(i));
 		}
 		
 		return lottoNumbers;
 	}
 	
-	public static int[] getActualLottoNumbers()
+	public static ArrayList<Integer> getActualLottoNumbers()
 	{
 		return getLottoNumbersFromInputStream(getLottoInputStream(connectTo(LOTTOZAHLEN_URL)));		
 	}

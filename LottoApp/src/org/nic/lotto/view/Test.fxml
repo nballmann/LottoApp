@@ -2,6 +2,7 @@
 
 <?import java.lang.*?>
 <?import java.net.*?>
+<?import javafx.collections.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
@@ -95,6 +96,31 @@
         </TextField>
       </children>
     </VBox>
+    <ChoiceBox layoutX="1273.0" layoutY="297.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Item 1" />
+          <String fx:value="Item 2" />
+          <String fx:value="Item 3" />
+        </FXCollections>
+      </items>
+      <stylesheets>
+        <URL value="@Theme.css" />
+      </stylesheets>
+    </ChoiceBox>
+    <ChoiceBox layoutX="1374.0" layoutY="297.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Item 1" />
+          <String fx:value="Item 2" />
+          <String fx:value="Item 3" />
+        </FXCollections>
+      </items>
+      <stylesheets>
+        <URL value="@Theme.css" />
+      </stylesheets>
+    </ChoiceBox>
+    <ListView layoutX="1508.0" layoutY="53.0" prefHeight="200.0" prefWidth="200.0" />
   </children>
   <stylesheets>
     <URL value="@Theme.css" />
