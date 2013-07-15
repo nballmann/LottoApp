@@ -141,21 +141,37 @@
             </AnchorPane>
             <AnchorPane fx:id="anchorPane_top" layoutX="600.0" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="background">
               <children>
-                <VBox id="VBox" alignment="CENTER_LEFT" layoutX="100" layoutY="100.0" spacing="6.0">
-     			 <children>
-       	 			<Label text="Betrag eingeben:" VBox.vgrow="NEVER" />
-        			<TextField fx:id="moneyInput" onAction="#handleTextInput" alignment="CENTER_RIGHT" prefWidth="200.0">
-          			<stylesheets>
-            			<URL value="@Theme.css" />
-         			 </stylesheets>
-       				</TextField>
-      				</children>
-      			</VBox>
-      			<ListView fx:id="listView" prefHeight="270.0" prefWidth="180.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="40.0">
-      				<stylesheets>
-        				<URL value="@Theme.css" />
-      				</stylesheets>
-    			</ListView>
+                
+      			  <Group id="Group" layoutX="50.0" layoutY="50.0">
+				      <children>
+				            <ChoiceBox fx:id="moneyChoiceBox" layoutX="0.0" layoutY="163.0" prefWidth="105.0">
+				              <stylesheets>
+				                <URL value="@Theme.css" />
+				              </stylesheets>
+				            </ChoiceBox>
+				            <TextField fx:id="userNameInput" layoutX="0.0" layoutY="82.0" prefWidth="225.0" />
+				            <Button fx:id="addUserButton" layoutX="120.0" layoutY="163.0" mnemonicParsing="false" onAction="#handleAddUser" prefHeight="33.0" prefWidth="105.0" text="Hinzufügen" />
+				            <Label layoutX="1.0" layoutY="0.0" styleClass="label-header-small" text="Benutzer hinzufügen">
+				              <stylesheets>
+				                <URL value="@Theme.css" />
+				              </stylesheets>
+				            </Label>
+				            <Label layoutX="1.0" layoutY="137.0" text="Betrag eingeben:" />
+				            <Label layoutX="1.0" layoutY="57.0" text="Name" />
+				        <ChoiceBox fx:id="userChoiceBox" layoutX="0.0" layoutY="338.0" prefWidth="225.0">
+				        </ChoiceBox>
+				        <Label layoutX="2.0" layoutY="290.0" styleClass="label-header-small" text="Benutzer wechseln">
+				          <stylesheets>
+				            <URL value="@Theme.css" />
+				          </stylesheets>
+				        </Label>
+				      </children>
+				    </Group>
+				    <ListView fx:id="listView" prefHeight="500.0" prefWidth="240.0" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+				      <stylesheets>
+				        <URL value="@Theme.css" />
+				      </stylesheets>
+				    </ListView>
                 <Group id="Group" fx:id="topToCenter" layoutX="248.0" layoutY="550.0" onMouseClicked="#handleToCenter">
                   <children>
                     <Line endX="100.0" layoutX="2.0" layoutY="2.0" stroke="$x1" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />

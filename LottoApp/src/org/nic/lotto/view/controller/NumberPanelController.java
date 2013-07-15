@@ -1,5 +1,6 @@
 package org.nic.lotto.view.controller;
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -13,6 +14,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.ParallelTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -27,6 +29,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
@@ -84,7 +87,16 @@ public class NumberPanelController implements Initializable, IController
 	private Button tippButton;
 	
 	@FXML
-	private TextField moneyInput;
+	private Button addUserButton;
+	
+	@FXML
+	private ChoiceBox<String> userChoiceBox;
+	
+	@FXML
+	private ChoiceBox<BigDecimal> moneyChoiceBox;
+	
+	@FXML
+	private TextField userNameInput;
 	
 	@FXML
 	private ListView<String> listView;
@@ -147,28 +159,6 @@ public class NumberPanelController implements Initializable, IController
 	StringProperty oldString = new SimpleStringProperty("");
 	
 	@FXML
-	private void handleTextInput()
-	{
-		if(moneyInput.getText()=="")
-			oldString.set("");
-		else {
-			
-			try {
-				double d = Double.parseDouble(moneyInput.getText());
-				
-				NumberFormat fm = new DecimalFormat("#0.00");
-				moneyInput.setText(fm.format(d) + "€");
-				
-			} catch (NumberFormatException e) {
-				moneyInput.setText(oldString.get());
-			}
-		}
-		
-//		oldString = moneyInput.getText();
-		oldString.bindBidirectional(moneyInput.textProperty());
-	}
-	
-	@FXML
 	private void handleTippAbgeben()
 	{
 		int z1 = actualUserTipps.get(0); 
@@ -186,7 +176,7 @@ public class NumberPanelController implements Initializable, IController
 		StringBuilder sb = new StringBuilder();
 		
 		ArrayList<Integer> result = compareLottoNumbers(actualUserTipps);
-		if(result!=null&&!result.isEmpty())
+		if(result!=null && !result.isEmpty())
 		{
 			for(Integer i : result)
 			{
@@ -201,6 +191,12 @@ public class NumberPanelController implements Initializable, IController
 				TimeUtil.getFormattedTime(), 
 				z1,z2,z3,z4,z5,z6,sz,sb.toString()
 				);
+	}
+	
+	@FXML
+	private void handleAddUser()
+	{
+		
 	}
 	
 	private class BtnChangeListener implements ChangeListener<Boolean>
@@ -255,7 +251,37 @@ public class NumberPanelController implements Initializable, IController
 		
 		initRndNumbers();
 		
-		initActualNumbers();
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				initActualNumbers();				
+			}
+			
+		});
+		
+		moneyChoiceBox.setItems(FXCollections.observableArrayList(
+				new BigDecimal(50.00), 
+				new BigDecimal(45.00),
+				new BigDecimal(40.00),
+				new BigDecimal(35.00),
+				new BigDecimal(30.00),
+				new BigDecimal(25.00),
+				new BigDecimal(20.00),
+				new BigDecimal(15.00),
+				new BigDecimal(10.00)));
+		
+		moneyChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Number> ov,
+					Number oldValue, Number newValue) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		moneyChoiceBox.getSelectionModel().selectFirst();
 		
 		anchorPane_bottom.getChildren().add(lottoTableView);
 		generateTableView();

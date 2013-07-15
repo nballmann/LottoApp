@@ -14,7 +14,7 @@ public class LottoNumberSet
 	
 	public String getDate()					{ return date.get(); }
 	public StringProperty dateProperty()	{ return date; }
-	public void setDate(final String value)		{ date.set(value); }
+	public void setDate(final String value)	{ date.set(value); }
 	
 	
 	private StringProperty numbers;
