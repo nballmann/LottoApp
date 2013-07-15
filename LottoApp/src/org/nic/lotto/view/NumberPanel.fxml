@@ -149,8 +149,13 @@
             			<URL value="@Theme.css" />
          			 </stylesheets>
        				</TextField>
-      			</children>
-    			</VBox>
+      				</children>
+      			</VBox>
+      			<ListView fx:id="listView" prefHeight="270.0" prefWidth="180.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="40.0">
+      				<stylesheets>
+        				<URL value="@Theme.css" />
+      				</stylesheets>
+    			</ListView>
                 <Group id="Group" fx:id="topToCenter" layoutX="248.0" layoutY="550.0" onMouseClicked="#handleToCenter">
                   <children>
                     <Line endX="100.0" layoutX="2.0" layoutY="2.0" stroke="$x1" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />

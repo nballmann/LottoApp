@@ -188,7 +188,9 @@ public class DB_ConnectionHelper {
 	  /**
 	   * Fügt einen neuen Datensatz hinzu
 	   */
-	  public static void insertNumbersIntoZiehungen(String date, int zahl_1, int zahl_2, int zahl_3, int zahl_4, int zahl_5, int zahl_6, int szahl)
+	  public static void insertNumbersIntoZiehungen(final String date, final int zahl_1, 
+			  final int zahl_2, final int zahl_3, final int zahl_4, final int zahl_5, 
+			  final int zahl_6, final int szahl)
 	  {
 	    conn = getInstance();
 	 
@@ -238,7 +240,9 @@ public class DB_ConnectionHelper {
 	  /**
 	   * Fügt einen neuen Datensatz hinzu
 	   */
-	  public static void insertNumbersIntoTipps(String date, int zahl_1, int zahl_2, int zahl_3, int zahl_4, int zahl_5, int zahl_6, int szahl)
+	  public static void insertNumbersIntoTipps(final String date, final int zahl_1, 
+			  final int zahl_2, final int zahl_3, final int zahl_4, final int zahl_5,
+			  final int zahl_6, final int szahl, final String matches)
 	  {
 	    conn = getInstance();
 	 
@@ -247,8 +251,8 @@ public class DB_ConnectionHelper {
 	      try {
 	 
 	        // Insert-Statement erzeugen (Fragezeichen werden später ersetzt).
-	        String sql = "INSERT INTO tipps(date, zahl_1, zahl_2, zahl_3, zahl_4, zahl_5, zahl_6, szahl) " +
-	                     "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+	        String sql = "INSERT INTO tipps(date, zahl_1, zahl_2, zahl_3, zahl_4, zahl_5, zahl_6, szahl, matches) " +
+	                     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	        PreparedStatement preparedStatement = conn.prepareStatement(sql);
 	        preparedStatement.setString(1, date);
 	        preparedStatement.setInt(2, zahl_1);
@@ -258,11 +262,12 @@ public class DB_ConnectionHelper {
 	        preparedStatement.setInt(6, zahl_5);
 	        preparedStatement.setInt(7, zahl_6);
 	        preparedStatement.setInt(8, szahl);
+	        preparedStatement.setString(9, matches);
 	        // SQL ausführen.
 	        preparedStatement.executeUpdate();
 	 
 	        // Es wird der letzte Datensatz abgefragt
-	        String lastScore = "SELECT date, zahl_1, zahl_2, zahl_3, zahl_4, zahl_5, zahl_6, szahl " +
+	        String lastScore = "SELECT date, zahl_1, zahl_2, zahl_3, zahl_4, zahl_5, zahl_6, szahl, matches " +
 	                           "FROM tipps " +
 	                           "ORDER BY date DESC LIMIT 1";
 	        ResultSet result = preparedStatement.executeQuery(lastScore);
@@ -277,7 +282,8 @@ public class DB_ConnectionHelper {
 	        			result.getInt(5) + " " +
 	        			result.getInt(6) + " " +
 	        			result.getInt(7) + " " +
-	        			result.getInt(8));
+	        			result.getInt(8) + " " +
+	        			result.getString(9));
 	        }
 	      } catch (SQLException e) {
 	    	  e.printStackTrace();

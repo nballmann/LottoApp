@@ -120,6 +120,7 @@
         <URL value="@Theme.css" />
       </stylesheets>
     </ChoiceBox>
+    <ListView layoutX="1508.0" layoutY="53.0" prefHeight="200.0" prefWidth="200.0" />
   </children>
   <stylesheets>
     <URL value="@Theme.css" />

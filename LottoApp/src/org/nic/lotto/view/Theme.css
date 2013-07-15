@@ -310,3 +310,9 @@
 	-fx-font-size:36pt;
 	-fx-alignment:center;	 
 }
+
+.list-view {
+	-fx-base: #1d1d1d;
+ 	-fx-control-inner-background: #1d1d1d;
+  	-fx-background-color: #1d1d1d;
+}

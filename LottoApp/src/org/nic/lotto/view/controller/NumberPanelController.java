@@ -15,6 +15,8 @@ import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -25,6 +27,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -83,6 +86,9 @@ public class NumberPanelController implements Initializable, IController
 	@FXML
 	private TextField moneyInput;
 	
+	@FXML
+	private ListView<String> listView;
+	
 	private ObservableMap<String,ToggleButton> gridButtons = 
 			FXCollections.observableMap(new HashMap<String,ToggleButton>());
 	
@@ -91,9 +97,13 @@ public class NumberPanelController implements Initializable, IController
 	private TableColumn<LottoNumberSet,String> numbersColumn = new TableColumn<>();
 	private TableColumn<LottoNumberSet,Integer> szahlColumn = new TableColumn<>();
 	
-	private ObservableList<BooleanProperty> userTipps = FXCollections.observableArrayList();
+	private ObservableList<BooleanProperty> userTipp = FXCollections.observableArrayList();
 	
 	private ArrayList<Integer> actualUserTipps = new ArrayList<>();
+	
+	private ArrayList<Integer> actualNumbers;
+	
+	private ObservableList<String> userTipps = FXCollections.observableArrayList();
 
 	@FXML
 	private void handleCenterToLeft()
@@ -134,15 +144,13 @@ public class NumberPanelController implements Initializable, IController
 		}
 	}
 	
-	String oldString = "";
-
-	private ArrayList<Integer> actualNumbers;
+	StringProperty oldString = new SimpleStringProperty("");
 	
 	@FXML
 	private void handleTextInput()
 	{
 		if(moneyInput.getText()=="")
-			oldString="";
+			oldString.set("");
 		else {
 			
 			try {
@@ -152,26 +160,46 @@ public class NumberPanelController implements Initializable, IController
 				moneyInput.setText(fm.format(d) + "€");
 				
 			} catch (NumberFormatException e) {
-				moneyInput.setText(oldString);
+				moneyInput.setText(oldString.get());
 			}
 		}
 		
-		oldString = moneyInput.getText();
-		
+//		oldString = moneyInput.getText();
+		oldString.bindBidirectional(moneyInput.textProperty());
 	}
 	
 	@FXML
 	private void handleTippAbgeben()
 	{
+		int z1 = actualUserTipps.get(0); 
+		int z2 = actualUserTipps.get(1); 
+		int z3 = actualUserTipps.get(2); 
+		int z4 = actualUserTipps.get(3); 
+		int z5 = actualUserTipps.get(4); 
+		int z6 = actualUserTipps.get(5); 
+		int sz = RandomLottoNumGenerator.generateSuperNumber();
+		
+		
+		String sep = ", ";
+		String tipps = z1 + sep + z2 + sep + z3 + sep + z4 + sep + z5 + sep + z6 + sep + sz;
+		
+		StringBuilder sb = new StringBuilder();
+		
+		ArrayList<Integer> result = compareLottoNumbers(actualUserTipps);
+		if(result!=null&&!result.isEmpty())
+		{
+			for(Integer i : result)
+			{
+				sb.append(i + sep);
+			}
+			sb.delete(sb.lastIndexOf(sep), sb.lastIndexOf(sep)+1);
+		}
+		
+		userTipps.add(tipps + " | " +  sb.toString());
+		
 		DB_ConnectionHelper.insertNumbersIntoTipps(
 				TimeUtil.getFormattedTime(), 
-				actualUserTipps.get(0), 
-				actualUserTipps.get(1), 
-				actualUserTipps.get(2), 
-				actualUserTipps.get(3), 
-				actualUserTipps.get(4), 
-				actualUserTipps.get(5), 
-				RandomLottoNumGenerator.generateSuperNumber()
+				z1,z2,z3,z4,z5,z6,sz,sb.toString()
 				);
 	}
 	
@@ -184,7 +212,7 @@ public class NumberPanelController implements Initializable, IController
 
 			int count = 0;
 			
-			for(BooleanProperty bool : userTipps)
+			for(BooleanProperty bool : userTipp)
 			{
 				if(bool.get())
 				{
@@ -214,7 +242,6 @@ public class NumberPanelController implements Initializable, IController
 				}
 			}
 		}
-		
 	}
 
 	@Override
@@ -232,6 +259,8 @@ public class NumberPanelController implements Initializable, IController
 		
 		anchorPane_bottom.getChildren().add(lottoTableView);
 		generateTableView();
+		
+		listView.setItems(userTipps);
 		
 		lottoTableView.relocate(75, 120);
 	}
@@ -301,11 +330,10 @@ public class NumberPanelController implements Initializable, IController
 			BooleanProperty bool = new SimpleBooleanProperty(false);
 			bool.addListener(new BtnChangeListener());
 			gridButtons.get(String.valueOf(i)).selectedProperty().bindBidirectional(bool);
-			userTipps.add(bool);
+			userTipp.add(bool);
 		}
 	}
 	
-
 	public void setMainApp(LottoApp lottoApp) 
 	{
 		this.lottoApp = lottoApp;
@@ -358,6 +386,21 @@ public class NumberPanelController implements Initializable, IController
 		lottoTableView.getColumns().addAll(dateColumn,numbersColumn,szahlColumn);
 		
 		lottoTableView.setItems(DB_ConnectionHelper.getLottoZiehungen());
+	}
+	
+	private ArrayList<Integer> compareLottoNumbers(final ArrayList<Integer> userTip)
+	{
+		ArrayList<Integer> matches = new ArrayList<>();
+		
+		for(Integer number : userTip)
+		{
+			if(actualNumbers.contains(number))
+			{
+				matches.add(number);
+			}
+		}
+		
+		return matches;
 	}
 	
 }
