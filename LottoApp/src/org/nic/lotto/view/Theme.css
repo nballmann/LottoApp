@@ -332,3 +332,33 @@
 	-fx-highlight-text-fill: rgb(147,149,148);
 	-fx-text-fill: rgb(255,255,255);
 }
+
+.combo-box {
+	-fx-border-color: white, white;
+	-fx-background-color:transparent;
+	-fx-border-width: 2;
+	-fx-highlight-text-fill: white;
+	-fx-text-fill: rgb(255,255,255);
+}
+
+.combo-box-base {
+	-fx-border-color: white, white;
+	-fx-background-color:transparent;
+	-fx-border-width: 2;
+	-fx-highlight-text-fill: white;
+	-fx-text-fill: rgb(255,255,255);
+}
+
+.arrow-button {
+	-fx-background-color:transparent;
+	-fx-border-width: 0;
+	-fx-highlight-text-fill: rgb(147,149,148);
+	-fx-text-fill: rgb(255,255,255);
+}
+
+.list-cell {
+	-fx-font-family: "Calibri Bold";
+	-fx-font-size:14pt;
+	-fx-text-fill: rgb(255,255,255);
+	-fx-text-alignment:left ;
+}

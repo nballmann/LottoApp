@@ -28,7 +28,6 @@ public class LottoApp extends Application
 	private ObservableMap<String,Parent> screens = 
 			FXCollections.observableMap(new HashMap<String,Parent>());
 	
-	
 	@Override
 	public void start(Stage stage)  
 	{

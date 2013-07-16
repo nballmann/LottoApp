@@ -89,8 +89,6 @@
     <VBox id="VBox" alignment="CENTER_LEFT" layoutX="1211.0" layoutY="56.0" spacing="6.0" />
     <Group id="Group" layoutX="1249.0" layoutY="50.0">
       <children>
-        <Group id="Group" layoutX="1.0" layoutY="0.0" scaleX="1.0" scaleY="1.0">
-          <children>
             <ChoiceBox fx:id="moneyChoiceBox" layoutX="0.0" layoutY="163.0" prefWidth="105.0">
               <items>
                 <FXCollections fx:factory="observableArrayList">
@@ -112,9 +110,7 @@
             </Label>
             <Label layoutX="1.0" layoutY="137.0" text="Betrag eingeben:" />
             <Label layoutX="1.0" layoutY="57.0" text="Name" />
-          </children>
-        </Group>
-        <ChoiceBox layoutX="0.0" layoutY="338.0" prefWidth="225.0">
+        <ChoiceBox fx:id="userChoiceBox" layoutX="0.0" layoutY="338.0" prefWidth="225.0">
           <items>
             <FXCollections fx:factory="observableArrayList">
               <String fx:value="Item 1" />

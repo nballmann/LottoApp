@@ -158,8 +158,11 @@
 				            </Label>
 				            <Label layoutX="1.0" layoutY="137.0" text="Betrag eingeben:" />
 				            <Label layoutX="1.0" layoutY="57.0" text="Name" />
-				        <ChoiceBox fx:id="userChoiceBox" layoutX="0.0" layoutY="338.0" prefWidth="225.0">
-				        </ChoiceBox>
+				         <ComboBox fx:id="userChoiceComboBox" layoutX="0.0" layoutY="369.0" prefHeight="33.0" prefWidth="225.0">
+					      <stylesheets>
+					        <URL value="@Theme.css" />
+					      </stylesheets>
+					    </ComboBox>
 				        <Label layoutX="2.0" layoutY="290.0" styleClass="label-header-small" text="Benutzer wechseln">
 				          <stylesheets>
 				            <URL value="@Theme.css" />

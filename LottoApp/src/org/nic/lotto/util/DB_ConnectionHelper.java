@@ -6,10 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import org.nic.lotto.model.LottoNumberSet;
+import org.nic.lotto.model.User;
 
 
 public class DB_ConnectionHelper {
@@ -123,7 +125,52 @@ public class DB_ConnectionHelper {
 	    return lottoResultList;
 	  }
 	  
-	  public static ObservableList<LottoNumberSet> getLottoTipps()
+	  public static ObservableList<User> getUsers()
+	  {
+	    conn = getInstance();
+	 
+	    ObservableList<User> usersResultList = FXCollections.observableArrayList();
+	    
+	    if(conn != null)
+	    {
+	      // Anfrage-Statement erzeugen.
+	      Statement query;
+ 
+	      try {
+	        query = conn.createStatement();
+	        
+//	        int rowCount;
+	 
+	        // Ergebnistabelle erzeugen und abholen.
+	        String sql = "SELECT name FROM benutzer "
+	            + "ORDER BY ID ";
+	        ResultSet result = query.executeQuery(sql);
+	        
+	        // Ergebnissätze durchfahren.
+	        int index = 0;
+	        while (result.next()) {
+
+	        	String name = result.getString(1);
+
+	        	User user = new User(name);
+	        	
+	        	user.setTipps(getLottoTippsForUser(name));
+	        	
+	        	usersResultList.add(user);
+
+	        	index++;
+	        }
+	        System.out.println("Anzahl Einträge: " + index);
+	      } catch (SQLException e) {
+	    	  e.printStackTrace();
+	      }
+	    }
+	    
+	    return usersResultList;
+	  }
+	  
+	  
+	  public static ObservableList<LottoNumberSet> getLottoTippsForUser(final String name)
 	  {
 		  conn = getInstance();
 			 
@@ -137,18 +184,14 @@ public class DB_ConnectionHelper {
 		      try {
 		        query = conn.createStatement();
 		        
-//		        int rowCount;
+
 		 
 		        // Ergebnistabelle erzeugen und abholen.
-		        String sql = "SELECT date, zahl_1, zahl_2, zahl_3, zahl_4, zahl_5, zahl_6, szahl FROM tipps "
-		            + "ORDER BY date DESC";
+		        String sql = "SELECT date, zahl_1, zahl_2, zahl_3, zahl_4, zahl_5, zahl_6, szahl FROM tipps JOIN benutzer ON tipps.ID = benutzer.ID "
+		            +   "WHERE benutzer.name = \"" + name +"\"" 
+		        	+	" ORDER BY date DESC";
 		        ResultSet result = query.executeQuery(sql);
-		        
-		        // Anzahl der Zeilen aus dem ResultSet auslesen
-//		        result.last();
-//		        rowCount = result.getRow();
-//		        result.beforeFirst();
-		        
+		               
 		        
 		        // Ergebnissätze durchfahren.
 		        int index = 0;
@@ -240,9 +283,7 @@ public class DB_ConnectionHelper {
 	  /**
 	   * Fügt einen neuen Datensatz hinzu
 	   */
-	  public static void insertNumbersIntoTipps(final String date, final int zahl_1, 
-			  final int zahl_2, final int zahl_3, final int zahl_4, final int zahl_5,
-			  final int zahl_6, final int szahl, final String matches)
+	  public static void insertNewUser(final User user)
 	  {
 	    conn = getInstance();
 	 
@@ -251,18 +292,71 @@ public class DB_ConnectionHelper {
 	      try {
 	 
 	        // Insert-Statement erzeugen (Fragezeichen werden später ersetzt).
-	        String sql = "INSERT INTO tipps(date, zahl_1, zahl_2, zahl_3, zahl_4, zahl_5, zahl_6, szahl, matches) " +
-	                     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	        String sql = "INSERT INTO benutzer(name, money) " +
+	                     "VALUES(?, ?)";
 	        PreparedStatement preparedStatement = conn.prepareStatement(sql);
-	        preparedStatement.setString(1, date);
-	        preparedStatement.setInt(2, zahl_1);
-	        preparedStatement.setInt(3, zahl_2);
-	        preparedStatement.setInt(4, zahl_3);
-	        preparedStatement.setInt(5, zahl_4);
-	        preparedStatement.setInt(6, zahl_5);
-	        preparedStatement.setInt(7, zahl_6);
-	        preparedStatement.setInt(8, szahl);
-	        preparedStatement.setString(9, matches);
+	        preparedStatement.setString(1, user.getName());
+	        preparedStatement.setDouble(2, user.getMoney());
+
+	        // SQL ausführen.
+	        preparedStatement.executeUpdate();
+	 
+	        // Es wird der letzte Datensatz abgefragt
+	        String lastUser = "SELECT ID, name, money " +
+	                           "FROM benutzer " +
+	                           "ORDER BY ID DESC LIMIT 1";
+	        ResultSet result = preparedStatement.executeQuery(lastUser);
+	 
+	        // Wenn ein Datensatz gefunden wurde, wird auf diesen zugegriffen
+	        if(result.next())
+	        {
+	        	System.out.println(result.getInt(1) + " " +
+	        			result.getString(2) + " " + result.getDouble(3)
+	        			);
+	        }
+	      } catch (SQLException e) {
+	    	  e.printStackTrace();
+	      }
+	    }
+	  }
+	  
+	  /**
+	   * Fügt einen neuen Datensatz hinzu
+	   */
+	  public static void insertNumbersIntoTipps(String actualUser, final String date, final int zahl_1, 
+			  final int zahl_2, final int zahl_3, final int zahl_4, final int zahl_5,
+			  final int zahl_6, final int szahl, final String matches)
+	  {
+	    conn = getInstance();
+	 
+	    if(conn != null)
+	    {
+	      try {
+	    	actualUser = "\"" + actualUser + "\"";
+	    	String idStr = "SELECT ID FROM benutzer WHERE name = " + actualUser;
+	    	PreparedStatement idStatement = conn.prepareStatement(idStr);
+	    	ResultSet idResult = idStatement.executeQuery(idStr);
+	    	
+	    	int id = 0;
+	    	if(idResult.next())
+	    	{
+	    		id = idResult.getInt(1);
+	    	}
+	    	
+	        // Insert-Statement erzeugen (Fragezeichen werden später ersetzt).
+	        String sql = "INSERT INTO tipps(ID, date, zahl_1, zahl_2, zahl_3, zahl_4, zahl_5, zahl_6, szahl, matches) " +
+	                     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+	        preparedStatement.setInt(1, id);
+	        preparedStatement.setString(2, date);
+	        preparedStatement.setInt(3, zahl_1);
+	        preparedStatement.setInt(4, zahl_2);
+	        preparedStatement.setInt(5, zahl_3);
+	        preparedStatement.setInt(6, zahl_4);
+	        preparedStatement.setInt(7, zahl_5);
+	        preparedStatement.setInt(8, zahl_6);
+	        preparedStatement.setInt(9, szahl);
+	        preparedStatement.setString(10, matches);
 	        // SQL ausführen.
 	        preparedStatement.executeUpdate();
 	 
@@ -289,6 +383,11 @@ public class DB_ConnectionHelper {
 	    	  e.printStackTrace();
 	      }
 	    }
+	  }
+	  
+	  public static void updateUserMoney()
+	  {
+		  // TODO SQL UPDATE Statement on money value change
 	  }
 //	 
 //	  /**

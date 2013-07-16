@@ -2,8 +2,6 @@ package org.nic.lotto.view.controller;
 
 import java.math.BigDecimal;
 import java.net.URL;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -30,6 +28,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
@@ -44,6 +43,7 @@ import javafx.util.Duration;
 import org.nic.lotto.LottoApp;
 import org.nic.lotto.model.LottoNumber;
 import org.nic.lotto.model.LottoNumberSet;
+import org.nic.lotto.model.User;
 import org.nic.lotto.util.AnimationHelper;
 import org.nic.lotto.util.ConnectionHelper;
 import org.nic.lotto.util.DB_ConnectionHelper;
@@ -90,7 +90,7 @@ public class NumberPanelController implements Initializable, IController
 	private Button addUserButton;
 	
 	@FXML
-	private ChoiceBox<String> userChoiceBox;
+	private ComboBox<String> userChoiceComboBox;
 	
 	@FXML
 	private ChoiceBox<BigDecimal> moneyChoiceBox;
@@ -116,6 +116,12 @@ public class NumberPanelController implements Initializable, IController
 	private ArrayList<Integer> actualNumbers;
 	
 	private ObservableList<String> userTipps = FXCollections.observableArrayList();
+	
+	private User actualUser;
+	
+	private ObservableList<User> userList = FXCollections.observableArrayList();
+	
+	private ChangeListener<Number> comboBoxChangeListener = null;
 
 	@FXML
 	private void handleCenterToLeft()
@@ -161,42 +167,83 @@ public class NumberPanelController implements Initializable, IController
 	@FXML
 	private void handleTippAbgeben()
 	{
-		int z1 = actualUserTipps.get(0); 
-		int z2 = actualUserTipps.get(1); 
-		int z3 = actualUserTipps.get(2); 
-		int z4 = actualUserTipps.get(3); 
-		int z5 = actualUserTipps.get(4); 
-		int z6 = actualUserTipps.get(5); 
-		int sz = RandomLottoNumGenerator.generateSuperNumber();
-		
-		
-		String sep = ", ";
-		String tipps = z1 + sep + z2 + sep + z3 + sep + z4 + sep + z5 + sep + z6 + sep + sz;
-		
-		StringBuilder sb = new StringBuilder();
-		
-		ArrayList<Integer> result = compareLottoNumbers(actualUserTipps);
-		if(result!=null && !result.isEmpty())
+		if(actualUser.getMoney()>2.5)
 		{
-			for(Integer i : result)
+			int z1 = actualUserTipps.get(0); 
+			int z2 = actualUserTipps.get(1); 
+			int z3 = actualUserTipps.get(2); 
+			int z4 = actualUserTipps.get(3); 
+			int z5 = actualUserTipps.get(4); 
+			int z6 = actualUserTipps.get(5); 
+			int sz = RandomLottoNumGenerator.generateSuperNumber();
+
+
+			String sep = ", ";
+			String tipps = z1 + sep + z2 + sep + z3 + sep + z4 + sep + z5 + sep + z6 + sep + sz;
+
+			StringBuilder sb = new StringBuilder();
+
+			ArrayList<Integer> result = compareLottoNumbers(actualUserTipps);
+			if(result!=null && !result.isEmpty())
 			{
-				sb.append(i + sep);
+				for(Integer i : result)
+				{
+					sb.append(i + sep);
+				}
+				sb.delete(sb.lastIndexOf(sep), sb.lastIndexOf(sep)+1);
+
+				userTipps.add(tipps + " | " +  sb.toString());
 			}
-			sb.delete(sb.lastIndexOf(sep), sb.lastIndexOf(sep)+1);
+
+			DB_ConnectionHelper.insertNumbersIntoTipps(
+					actualUser.getName(), TimeUtil.getFormattedTime(), 
+					z1,z2,z3,z4,z5,z6,sz,sb.toString()
+					);
+			
+			actualUser.setMoney(actualUser.getMoney()-2.5);
 		}
-		
-		userTipps.add(tipps + " | " +  sb.toString());
-		
-		DB_ConnectionHelper.insertNumbersIntoTipps(
-				TimeUtil.getFormattedTime(), 
-				z1,z2,z3,z4,z5,z6,sz,sb.toString()
-				);
+		else
+		{
+			System.out.println("Benutzer " + actualUser.getName() + " ist Pleite");
+			// TODO PopUp-Window No Money left
+		}
 	}
 	
 	@FXML
 	private void handleAddUser()
 	{
+		int count = 0;
 		
+		for(User user : userList)
+		{
+			if(!user.getName().equals(userNameInput.getText().trim()))
+			{
+				count++;
+			}
+		}
+		
+		if(count==userList.size())
+		{
+			Platform.runLater(new Runnable() {
+
+				@Override
+				public void run() {
+					User newUser = new User(userNameInput.getText());
+					newUser.setMoney(moneyChoiceBox.getValue().doubleValue());
+					userList.add(newUser);
+					actualUser = newUser;
+					
+					DB_ConnectionHelper.insertNewUser(newUser);
+					
+					updateUserChoiceBox();
+				}
+				
+			});
+			
+		} else {
+			System.out.println("Existing name");
+		}
+
 	}
 	
 	private class BtnChangeListener implements ChangeListener<Boolean>
@@ -255,9 +302,21 @@ public class NumberPanelController implements Initializable, IController
 
 			@Override
 			public void run() {
+				userList = DB_ConnectionHelper.getUsers();
+			
+				actualUser = userList.get(0);
+				
+				initUserComboBox();
+				System.out.println("selectedindex: " + userChoiceComboBox.getSelectionModel().getSelectedIndex());
+			}
+		});
+		
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
 				initActualNumbers();				
 			}
-			
 		});
 		
 		moneyChoiceBox.setItems(FXCollections.observableArrayList(
@@ -291,6 +350,40 @@ public class NumberPanelController implements Initializable, IController
 		lottoTableView.relocate(75, 120);
 	}
 	
+	private void initUserComboBox()
+	{
+		ObservableList<String> userNames = FXCollections.observableArrayList();
+
+		for(User user : userList)
+		{
+			userNames.add(user.getName());
+			System.out.println(user.getName());
+		}
+
+		userChoiceComboBox.getItems().addAll(userNames); 
+		
+		userChoiceComboBox.setValue(actualUser.getName());
+		
+		comboBoxChangeListener = new ChangeListener<Number>() {
+			
+			@Override
+			public void changed(ObservableValue<? extends Number> ov,
+					Number oldValue, Number newValue) {
+
+				System.out.println("selectedindex: " + userChoiceComboBox.getSelectionModel().getSelectedIndex());
+				actualUser = userList.get(userChoiceComboBox.getSelectionModel().getSelectedIndex());
+			}
+			
+		};
+		
+		userChoiceComboBox.getSelectionModel().selectedIndexProperty().addListener(comboBoxChangeListener);
+	}
+	
+	private void updateUserChoiceBox()
+	{
+		userChoiceComboBox.getItems().add(userList.get(userList.indexOf(actualUser)).getName());
+	}
+	
 	private void initActualNumbers()
 	{
 		actualNumbers = ConnectionHelper.getActualLottoNumbers();
@@ -308,7 +401,8 @@ public class NumberPanelController implements Initializable, IController
 		}
 		anchorPane_center.getChildren().add(new LottoNumber(actualNumbers.get(6), false));
 		anchorPane_center.lookup("#actualSuperNumber_" + actualNumbers.get(6)).setVisible(false);
-		animationList.add(AnimationHelper.getTransition((Group) anchorPane_center.lookup("#actualSuperNumber_" + actualNumbers.get(6)), 6, true));
+		animationList.add(AnimationHelper.getTransition(
+				(Group) anchorPane_center.lookup("#actualSuperNumber_" + actualNumbers.get(6)), 6, true));
 		
 		SequentialTransition sequenz = new SequentialTransition();
 		sequenz.getChildren().addAll(animationList);
@@ -428,5 +522,7 @@ public class NumberPanelController implements Initializable, IController
 		
 		return matches;
 	}
+	
+	// TODO Gewinnberechnung 
 	
 }
