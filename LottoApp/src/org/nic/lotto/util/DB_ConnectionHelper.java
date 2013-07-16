@@ -385,9 +385,25 @@ public class DB_ConnectionHelper {
 	    }
 	  }
 	  
-	  public static void updateUserMoney()
+	  public static void updateUserMoney(final String userName, final double newValue)
 	  {
-		  // TODO SQL UPDATE Statement on money value change
+		  conn = getInstance();
+		  
+		  if(conn!=null)
+		  {
+			  try {
+				String sql = "UPDATE benutzer SET money = '?' WHERE name = '?' ";
+				
+				PreparedStatement preparedStatement = conn.prepareStatement(sql);
+				preparedStatement.setDouble(1, newValue);
+				preparedStatement.setString(2, userName);
+				
+				preparedStatement.executeUpdate();
+				
+			} catch (SQLException e) {
+				// TODO: handle exception
+			}
+		  }
 	  }
 //	 
 //	  /**
