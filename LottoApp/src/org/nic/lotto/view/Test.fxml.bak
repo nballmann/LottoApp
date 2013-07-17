@@ -89,28 +89,7 @@
     <VBox id="VBox" alignment="CENTER_LEFT" layoutX="1211.0" layoutY="56.0" spacing="6.0" />
     <Group id="Group" layoutX="1249.0" layoutY="50.0">
       <children>
-            <ChoiceBox fx:id="moneyChoiceBox" layoutX="0.0" layoutY="163.0" prefWidth="105.0">
-              <items>
-                <FXCollections fx:factory="observableArrayList">
-                  <String fx:value="Item 1" />
-                  <String fx:value="Item 2" />
-                  <String fx:value="Item 3" />
-                </FXCollections>
-              </items>
-              <stylesheets>
-                <URL value="@Theme.css" />
-              </stylesheets>
-            </ChoiceBox>
-            <TextField fx:id="userNameInput" layoutX="0.0" layoutY="82.0" prefWidth="225.0" />
-            <Button fx:id="addUserButton" layoutX="120.0" layoutY="163.0" mnemonicParsing="false" onAction="#handleAddUser" prefHeight="33.0" prefWidth="105.0" text="Hinzufügen" />
-            <Label layoutX="1.0" layoutY="0.0" styleClass="label-header-small" text="Benutzer hinzufügen">
-              <stylesheets>
-                <URL value="@Theme.css" />
-              </stylesheets>
-            </Label>
-            <Label layoutX="1.0" layoutY="137.0" text="Betrag eingeben:" />
-            <Label layoutX="1.0" layoutY="57.0" text="Name" />
-        <ChoiceBox fx:id="userChoiceBox" layoutX="0.0" layoutY="338.0" prefWidth="225.0">
+        <ChoiceBox fx:id="moneyChoiceBox" layoutY="163.0" prefWidth="105.0">
           <items>
             <FXCollections fx:factory="observableArrayList">
               <String fx:value="Item 1" />
@@ -118,7 +97,19 @@
               <String fx:value="Item 3" />
             </FXCollections>
           </items>
+          <stylesheets>
+            <URL value="@Theme.css" />
+          </stylesheets>
         </ChoiceBox>
+        <TextField fx:id="userNameInput" layoutY="82.0" prefWidth="225.0" />
+        <Button fx:id="addUserButton" layoutX="120.0" layoutY="163.0" mnemonicParsing="false" onAction="#handleAddUser" prefHeight="33.0" prefWidth="105.0" text="Hinzufügen" />
+        <Label layoutX="1.0" styleClass="label-header-small" text="Benutzer hinzufügen">
+          <stylesheets>
+            <URL value="@Theme.css" />
+          </stylesheets>
+        </Label>
+        <Label layoutX="1.0" layoutY="137.0" text="Betrag eingeben:" />
+        <Label layoutX="1.0" layoutY="57.0" text="Name" />
         <Label layoutX="2.0" layoutY="290.0" styleClass="label-header-small" text="Benutzer wechseln">
           <stylesheets>
             <URL value="@Theme.css" />
@@ -126,11 +117,16 @@
         </Label>
       </children>
     </Group>
-    <ListView fx:id="listView" prefHeight="500.0" prefWidth="240.0" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+    <ListView fx:id="listView" prefHeight="500.0" prefWidth="240.0" AnchorPane.bottomAnchor="48.5" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="51.5">
       <stylesheets>
         <URL value="@Theme.css" />
       </stylesheets>
     </ListView>
+    <ComboBox layoutX="1251.0" layoutY="379.0" prefHeight="33.0" prefWidth="225.0" promptText="TestTextForAll">
+      <stylesheets>
+        <URL value="@Theme.css" />
+      </stylesheets>
+    </ComboBox>
   </children>
   <stylesheets>
     <URL value="@Theme.css" />

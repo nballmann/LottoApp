@@ -23,10 +23,10 @@ public final class RandomLottoNumGenerator
 			}
 		}
 		
-		for(Integer i : numbers)
-		{
-			System.out.println(i.toString());
-		}
+//		for(Integer i : numbers)
+//		{
+//			System.out.println(i.toString());
+//		}
 		
 		return numbers;
 	}

@@ -142,7 +142,7 @@ public class DB_ConnectionHelper {
 //	        int rowCount;
 	 
 	        // Ergebnistabelle erzeugen und abholen.
-	        String sql = "SELECT name FROM benutzer "
+	        String sql = "SELECT name, money FROM benutzer "
 	            + "ORDER BY ID ";
 	        ResultSet result = query.executeQuery(sql);
 	        
@@ -151,10 +151,12 @@ public class DB_ConnectionHelper {
 	        while (result.next()) {
 
 	        	String name = result.getString(1);
+	        	double value = result.getDouble(2);
 
 	        	User user = new User(name);
 	        	
 	        	user.setTipps(getLottoTippsForUser(name));
+	        	user.setMoney(value);
 	        	
 	        	usersResultList.add(user);
 
@@ -392,16 +394,16 @@ public class DB_ConnectionHelper {
 		  if(conn!=null)
 		  {
 			  try {
-				String sql = "UPDATE benutzer SET money = '?' WHERE name = '?' ";
+				String sql = "UPDATE benutzer SET money = " + newValue + " WHERE name = \"" + userName + "\" ";
 				
 				PreparedStatement preparedStatement = conn.prepareStatement(sql);
-				preparedStatement.setDouble(1, newValue);
-				preparedStatement.setString(2, userName);
-				
+//				preparedStatement.setDouble(1, newValue);
+//				preparedStatement.setString(2, userName);
+//				
 				preparedStatement.executeUpdate();
 				
 			} catch (SQLException e) {
-				// TODO: handle exception
+				e.printStackTrace();
 			}
 		  }
 	  }

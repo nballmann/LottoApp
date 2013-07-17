@@ -101,8 +101,8 @@ public class Particle {
 						
 //						b: Ausfallsvektor = (2 mal) Normal + Einfallsvektor
 //						System.out.println("----------------\n" + v.getX() + ":" + v.getY());
-						v.setX((v.getX() + N.getX()*0.5)*0.9); //2*N
-						v.setY((v.getY() + N.getY()*0.5)*0.9); // 2*N
+						v.setX((v.getX() + 2*N.getX()*0.5)*0.9); //2*N
+						v.setY((v.getY() + 2*N.getY()*0.5)*0.9); // 2*N
 //						System.out.println(v.getX() + ":" + v.getY());
 						
 //						if (color_b == 1) {

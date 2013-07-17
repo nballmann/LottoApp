@@ -23,9 +23,9 @@ public final class ConnectionHelper
 	
 	public static HttpURLConnection connectTo(String lottozahlenUrl) {
 		try {
-//			Properties systemProperties = System.getProperties();
-//			systemProperties.setProperty("http.proxyHost", PROXY_IP);
-//			systemProperties.setProperty("http.proxyPort", PROXY_PORT);
+			Properties systemProperties = System.getProperties();
+			systemProperties.setProperty("http.proxyHost", PROXY_IP);
+			systemProperties.setProperty("http.proxyPort", PROXY_PORT);
 //			
 			URL url = new URL(lottozahlenUrl);
 			URLConnection con = url.openConnection();
@@ -70,7 +70,7 @@ public final class ConnectionHelper
 		for(int i=0;i<7;i++)
 		{
 			lottoNumbers.add(Integer.parseInt(strNumberList.get(i)));
-			System.out.println(lottoNumbers.get(i));
+//			System.out.println(lottoNumbers.get(i));
 		}
 		
 		return lottoNumbers;

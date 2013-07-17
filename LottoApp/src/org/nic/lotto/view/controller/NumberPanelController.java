@@ -38,11 +38,13 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import org.nic.lotto.LottoApp;
 import org.nic.lotto.model.LottoNumber;
 import org.nic.lotto.model.LottoNumberSet;
+import org.nic.lotto.model.LottoWinClasses;
 import org.nic.lotto.model.User;
 import org.nic.lotto.util.AnimationHelper;
 import org.nic.lotto.util.ConnectionHelper;
@@ -101,6 +103,12 @@ public class NumberPanelController implements Initializable, IController
 	@FXML
 	private ListView<String> listView;
 	
+	@FXML
+	private Text userNameText;
+	
+	@FXML
+	private Text userMoneyText;
+		
 	private ObservableMap<String,ToggleButton> gridButtons = 
 			FXCollections.observableMap(new HashMap<String,ToggleButton>());
 	
@@ -177,12 +185,14 @@ public class NumberPanelController implements Initializable, IController
 			int z6 = actualUserTipps.get(5); 
 			int sz = RandomLottoNumGenerator.generateSuperNumber();
 
-
+			String tempTipp = "";
 			String sep = ", ";
 			String tipps = z1 + sep + z2 + sep + z3 + sep + z4 + sep + z5 + sep + z6 + sep + sz;
 
 			StringBuilder sb = new StringBuilder();
 
+			tempTipp = tempTipp + tipps;
+			
 			ArrayList<Integer> result = compareLottoNumbers(actualUserTipps);
 			if(result!=null && !result.isEmpty())
 			{
@@ -192,15 +202,27 @@ public class NumberPanelController implements Initializable, IController
 				}
 				sb.delete(sb.lastIndexOf(sep), sb.lastIndexOf(sep)+1);
 
-				userTipps.add(tipps + " | " +  sb.toString());
+				tempTipp = tempTipp + " | ";
 			}
+			int matchSZ = 0;
+			
+			if(sz==actualNumbers.get(actualNumbers.size()-1))
+			{
+				sb.append("SZ: " + sz);
+				matchSZ = 1;
+			}
+			
+			userTipps.add(tempTipp + sb.toString());
 
 			DB_ConnectionHelper.insertNumbersIntoTipps(
 					actualUser.getName(), TimeUtil.getFormattedTime(), 
 					z1,z2,z3,z4,z5,z6,sz,sb.toString()
 					);
-			
-			actualUser.setMoney(actualUser.getMoney()-2.5);
+//			System.out.println("Vorher: " + actualUser.getMoney());
+			actualUser.setMoney(actualUser.getMoney()-2.5 + LottoWinClasses.moneyValueForMatchingNumbers(result.size(), matchSZ));
+			userMoneyText.setText(actualUser.getMoney() + "€");
+//			System.out.println("Nachher: " + actualUser.getMoney());
+			DB_ConnectionHelper.updateUserMoney(actualUser.getName(), actualUser.getMoney());
 		}
 		else
 		{
@@ -237,7 +259,6 @@ public class NumberPanelController implements Initializable, IController
 					
 					updateUserChoiceBox();
 				}
-				
 			});
 			
 		} else {
@@ -307,7 +328,10 @@ public class NumberPanelController implements Initializable, IController
 				actualUser = userList.get(0);
 				
 				initUserComboBox();
-				System.out.println("selectedindex: " + userChoiceComboBox.getSelectionModel().getSelectedIndex());
+//				System.out.println("selectedindex: " + userChoiceComboBox.getSelectionModel().getSelectedIndex());
+				
+				userNameText.setText(actualUser.getName());
+				userMoneyText.setText(actualUser.getMoney() + "€");
 			}
 		});
 		
@@ -357,7 +381,7 @@ public class NumberPanelController implements Initializable, IController
 		for(User user : userList)
 		{
 			userNames.add(user.getName());
-			System.out.println(user.getName());
+//			System.out.println(user.getName());
 		}
 
 		userChoiceComboBox.getItems().addAll(userNames); 
@@ -370,8 +394,11 @@ public class NumberPanelController implements Initializable, IController
 			public void changed(ObservableValue<? extends Number> ov,
 					Number oldValue, Number newValue) {
 
-				System.out.println("selectedindex: " + userChoiceComboBox.getSelectionModel().getSelectedIndex());
+//				System.out.println("selectedindex: " + userChoiceComboBox.getSelectionModel().getSelectedIndex());
 				actualUser = userList.get(userChoiceComboBox.getSelectionModel().getSelectedIndex());
+				
+				userNameText.setText(actualUser.getName());
+				userMoneyText.setText(actualUser.getMoney() + "€");
 			}
 			
 		};
@@ -382,6 +409,7 @@ public class NumberPanelController implements Initializable, IController
 	private void updateUserChoiceBox()
 	{
 		userChoiceComboBox.getItems().add(userList.get(userList.indexOf(actualUser)).getName());
+		userChoiceComboBox.setValue(actualUser.getName());
 	}
 	
 	private void initActualNumbers()
@@ -461,7 +489,7 @@ public class NumberPanelController implements Initializable, IController
 	
 	public void gotoPanel(int x, int y)
 	{
-		System.out.println(scrollPane.getHvalue());
+//		System.out.println(scrollPane.getHvalue());
 	
 		final Timeline timeline = new Timeline();
 		timeline.setCycleCount(1);
@@ -514,7 +542,7 @@ public class NumberPanelController implements Initializable, IController
 		
 		for(Integer number : userTip)
 		{
-			if(actualNumbers.contains(number))
+			if(actualNumbers.subList(0, actualNumbers.size()-2).contains(number))
 			{
 				matches.add(number);
 			}
@@ -522,7 +550,5 @@ public class NumberPanelController implements Initializable, IController
 		
 		return matches;
 	}
-	
-	// TODO Gewinnberechnung 
 	
 }

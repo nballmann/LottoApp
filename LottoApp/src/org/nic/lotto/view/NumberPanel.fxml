@@ -141,7 +141,6 @@
             </AnchorPane>
             <AnchorPane fx:id="anchorPane_top" layoutX="600.0" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="background">
               <children>
-                
       			  <Group id="Group" layoutX="50.0" layoutY="50.0">
 				      <children>
 				            <ChoiceBox fx:id="moneyChoiceBox" layoutX="0.0" layoutY="163.0" prefWidth="105.0">
@@ -163,11 +162,13 @@
 					        <URL value="@Theme.css" />
 					      </stylesheets>
 					    </ComboBox>
-				        <Label layoutX="2.0" layoutY="290.0" styleClass="label-header-small" text="Benutzer wechseln">
+				         <Label layoutX="1.0" layoutY="290.0" styleClass="label-header-small" text="Benutzer wechseln">
 				          <stylesheets>
 				            <URL value="@Theme.css" />
 				          </stylesheets>
 				        </Label>
+				        <Text fx:id="userNameText" fill="WHITE" layoutX="1.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label" text="User Name" />
+				        <Text fx:id="userMoneyText" fill="WHITE" layoutX="150" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label" text="User Money" />
 				      </children>
 				    </Group>
 				    <ListView fx:id="listView" prefHeight="500.0" prefWidth="240.0" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
