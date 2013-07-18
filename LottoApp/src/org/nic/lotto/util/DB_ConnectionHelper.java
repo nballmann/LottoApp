@@ -407,96 +407,17 @@ public class DB_ConnectionHelper {
 			}
 		  }
 	  }
-//	 
-//	  /**
-//	   * Aktualisiert den Datensatz mit der übergebenen actorId
-//	   */
-//	  public static void updateScore(int player_score, int cpu_score, String cpu_level, int score_id)
-//	  {
-//	    conn = getInstance();
-//	 
-//	    if(conn != null)
-//	    {
-//	      try {
-//	 
-//	        String querySql = "SELECT player_score, cpu_score, cpu_level " +
-//	                          "FROM score_db " +
-//	                          "WHERE score_id = ?";
-//	         
-//	        // PreparedStatement erzeugen.
-//	        PreparedStatement preparedQueryStatement = conn.prepareStatement(querySql);
-//	        preparedQueryStatement.setInt(1, score_id);
-//	        ResultSet result = preparedQueryStatement.executeQuery();
-//	 
-//	        if(result.next())
-//	        {
-//	          // Vorher
-//	          System.out.println("VORHER: " + result.getInt(1) + ":" +
-//	                                           result.getInt(2) + " Level: " +
-//	                                           result.getString(3));
-//	        }
-//	 
-//	        // Ergebnistabelle erzeugen und abholen.
-//	        String updateSql = "UPDATE score_db " +
-//	                           "SET player_score = ?, cpu_score = ?, cpu_level = ? " +
-//	                           "WHERE score_id = ?";
-//	        PreparedStatement preparedUpdateStatement = conn.prepareStatement(updateSql);
-//	        // Erstes Fragezeichen durch "player_score" Parameter ersetzen
-//	        preparedUpdateStatement.setInt(1, player_score);
-//	        // Zweites Fragezeichen durch "cpu_score" Parameter ersetzen
-//	        preparedUpdateStatement.setInt(2, cpu_score);
-//	        // Drittes Fragezeichen durch "cpu_level" Parameter ersetzen
-//	        preparedUpdateStatement.setString(3, cpu_level);
-//	        // Viertes Fragezeichen durch "score_id" Parameter ersetzen
-//	        preparedUpdateStatement.setInt(4, score_id);
-//	        // SQL ausführen
-//	        preparedUpdateStatement.executeUpdate();
-//	         
-//	        // Es wird der letzte Datensatz abgefragt
-//	        result = preparedQueryStatement.executeQuery();
-//	 
-//	        if(result.next())
-//	        {
-//	          System.out.println("NACHHER: " + result.getInt(1) + ":" +
-//	                                            result.getInt(2) + " Level: " +
-//	                                            result.getString(3));
-//	        }
-//	 
-//	      } catch (SQLException e) {
-//	        e.printStackTrace();
-//	      }
-//	    }
-//	  }
-//	  
-//	  // Einträge löschen
-//	  public static void deleteScoreEntry(int score_id) 
-//	  {
-//		  
-//		  conn = getInstance();
-//			 
-//		    if(conn != null)
-//		    {
-//		      try {
-//		    	  String deleteSql =	"DELETE FROM score_db " + 
-//		    			  				"WHERE score_id = ?";
-//		    	  
-//		    	  PreparedStatement preparedDeleteStatement = conn.prepareStatement(deleteSql);
-//		    	  // Ersetzen des ? durch Parameter "score_id"
-//		    	  preparedDeleteStatement.setInt(1, score_id);
-//		    	  
-//		    	  preparedDeleteStatement.executeUpdate();
-//		    	  
-//		    	  
-//		      } catch (SQLException e) {
-//		    	  e.printStackTrace();
-//		      }
-//		    }
-//		    
-//		  
-//	  }
-//	  
-//	  
-//	  
+
+	  public static void deleteUser()
+	  {
+//		   TODO implement delete user statement
+	  }
+	  
+	  public static void deleteUserTipp()
+	  {
+//		  TODO implement delete user tipps statement
+	  }
+	  
 }
 
 

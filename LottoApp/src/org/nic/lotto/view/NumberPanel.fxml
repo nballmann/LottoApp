@@ -94,7 +94,7 @@
                   <children>
                     <Line endX="100.0" layoutX="2.0" layoutY="52.0" stroke="$x1" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
                     <Line endX="100.0" endY="50.0" layoutX="4.0" layoutY="2.0" startX="100.0" stroke="$x3" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
-                    <Text fill="$x1" font="$x2" layoutX="35.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Up" />
+                    <Text fill="$x1" font="$x2" layoutX="-150.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Benutzerverwaltung" />
                   </children>
                 </Group>
                 <Group id="Group" fx:id="centerToBottom" layoutX="248.0" layoutY="550.0" onMouseClicked="#handleCenterToBottom">
@@ -108,7 +108,7 @@
                   <children>
                     <Line endX="50.0" layoutX="2.0" layoutY="102.0" stroke="$x1" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
                     <Line endX="100.0" endY="100.0" layoutX="-45.0" layoutY="2.0" startX="100.0" stroke="$x4" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="2.5" />
-                    <Text fill="$x1" font="$x2" layoutX="21.0" layoutY="51.0" rotate="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Left" />
+                    <Text fill="$x1" font="$x2" layoutX="-40.0" layoutY="11.0" rotate="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipp abgeben" />
                   </children>
                 </Group>
                 <GridPane id="gridPane" alignment="CENTER" layoutX="113.0" layoutY="113.0" maxHeight="374.0" maxWidth="374.0" minHeight="374.0" minWidth="374.0" prefHeight="374.0" prefWidth="374.0" styleClass="grid-pane">
