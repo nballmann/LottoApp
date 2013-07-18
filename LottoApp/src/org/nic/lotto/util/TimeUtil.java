@@ -2,6 +2,7 @@ package org.nic.lotto.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public final class TimeUtil 
@@ -25,6 +26,20 @@ public final class TimeUtil
 		} catch (ParseException e) {
 			return new Date();
 		}
+	}
+	
+	public static String getLastLottoDate()
+	{
+		Calendar cal = Calendar.getInstance();
+		Date date = new Date();
+		
+		if(cal.get(Calendar.DAY_OF_WEEK)>Calendar.WEDNESDAY&&cal.get(Calendar.DAY_OF_WEEK)<Calendar.SATURDAY)
+		{
+			
+		}
+		
+		return null;
+		
 	}
 }
 

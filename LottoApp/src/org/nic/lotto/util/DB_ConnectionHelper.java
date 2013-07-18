@@ -228,6 +228,68 @@ public class DB_ConnectionHelper {
 		    return lottoResultList;
 	  }
 	  
+	  public static ObservableList<String> getTippEntrysForUser(final String name)
+	  {
+		  conn = getInstance();
+			 
+		    ObservableList<String> lottoEntryList = FXCollections.observableArrayList();
+		    
+		    if(conn != null)
+		    {
+		      // Anfrage-Statement erzeugen.
+		      Statement query;
+	 
+		      try {
+		        query = conn.createStatement();
+		        
+
+		 
+		        // Ergebnistabelle erzeugen und abholen.
+		        String sql = "SELECT zahl_1, zahl_2, zahl_3, zahl_4, zahl_5, zahl_6, szahl, matches FROM tipps JOIN benutzer ON tipps.ID = benutzer.ID "
+		            +   "WHERE benutzer.name = \"" + name +"\"" 
+		        	+	" ORDER BY date DESC";
+		        ResultSet result = query.executeQuery(sql);
+		               
+		        
+		        // Ergebnissätze durchfahren.
+		        int index = 0;
+		        while (result.next()) {
+
+		        	int[] numbers = new int[6];
+		        	numbers[0] = result.getInt("zahl_1");
+		        	numbers[1] = result.getInt("zahl_2");
+		        	numbers[2] = result.getInt("zahl_3");
+		        	numbers[3] = result.getInt("zahl_4");
+		        	numbers[4] = result.getInt("zahl_5");
+		        	numbers[5] = result.getInt("zahl_6");
+		        	int szahl = result.getInt("szahl");
+		        	String matches = result.getString("matches");
+
+		        	String sep = ", ";
+		        	StringBuilder sb = new StringBuilder();
+		        	sb.append(numbers[0]).append(sep).append(numbers[1]).
+		        		append(sep).append(numbers[2]).append(sep).
+		        		append(numbers[3]).append(sep).append(numbers[4]).
+		        		append(sep).append(numbers[5]).append(sep).append(szahl);
+		        	
+		        	if(matches!=""||matches!=null)
+		        	{
+		        		sb.append(" | ").append(matches);
+		        	}
+		    
+		        	lottoEntryList.add(sb.toString());
+
+		        	index++;
+		        }
+		        System.out.println("Anzahl Einträge: " + index);
+		      } catch (SQLException e) {
+		    	  e.printStackTrace();
+		      }
+		    }
+		    
+		    return lottoEntryList;
+	  }
+	  
 	  
 	 
 	  /**
@@ -245,7 +307,7 @@ public class DB_ConnectionHelper {
 	 
 	        // Insert-Statement erzeugen (Fragezeichen werden später ersetzt).
 	        String sql = "INSERT INTO ziehungen(date, zahl_1, zahl_2, zahl_3, zahl_4, zahl_5, zahl_6, szahl) " +
-	                     "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+	                     "VALUES(?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT IGNORE";
 	        PreparedStatement preparedStatement = conn.prepareStatement(sql);
 	        preparedStatement.setString(1, date);
 	        preparedStatement.setInt(2, zahl_1);

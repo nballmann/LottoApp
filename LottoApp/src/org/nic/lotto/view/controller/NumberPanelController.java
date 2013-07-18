@@ -3,6 +3,7 @@ package org.nic.lotto.view.controller;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
@@ -332,6 +333,10 @@ public class NumberPanelController implements Initializable, IController
 				
 				userNameText.setText(actualUser.getName());
 				userMoneyText.setText(actualUser.getMoney() + "€");
+				
+				userTipps = DB_ConnectionHelper.getTippEntrysForUser(actualUser.getName());
+				
+				listView.setItems(userTipps);
 			}
 		});
 		
@@ -368,8 +373,6 @@ public class NumberPanelController implements Initializable, IController
 		
 		anchorPane_bottom.getChildren().add(lottoTableView);
 		generateTableView();
-		
-		listView.setItems(userTipps);
 		
 		lottoTableView.relocate(75, 120);
 	}
@@ -415,6 +418,8 @@ public class NumberPanelController implements Initializable, IController
 	private void initActualNumbers()
 	{
 		actualNumbers = ConnectionHelper.getActualLottoNumbers();
+		
+		DB_ConnectionHelper.insertNumbersIntoZiehungen(Calendar.getInstance().get(Calendar.DAY_OF_WEEK), zahl_1, zahl_2, zahl_3, zahl_4, zahl_5, zahl_6, szahl)
 		
 		ArrayList<Animation> animationList = new ArrayList<>();
 		
